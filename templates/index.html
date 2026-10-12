@@ -1,0 +1,4419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BALAKBAK Smart Charging Locker Kiosk</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(180deg, #edf7f0, #f8faf9);
+    color: #1f2933;
+    padding: 15px;
+}
+
+.container {
+    width: 100%;
+    max-width: 430px;
+    margin: auto;
+}
+
+/* =========================================================
+   WELCOME SCREEN - ADDED ONLY
+========================================================= */
+
+.welcome-screen {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #edf7f0, #f8faf9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    z-index: 2000;
+}
+
+.welcome-screen.hidden {
+    display: none;
+}
+
+.welcome-card {
+    width: 100%;
+    max-width: 540px;
+    background: white;
+    border-radius: 30px;
+    padding: 45px 28px 35px;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+}
+
+.welcome-icon {
+    width: 118px;
+    height: 118px;
+    margin: 0 auto 22px;
+    border-radius: 30px;
+    background: linear-gradient(145deg, #176b43, #23945c);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 58px;
+    box-shadow: 0 12px 30px rgba(23,107,67,0.20);
+}
+
+.welcome-card h1 {
+    color: #176b43;
+    font-size: 38px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.welcome-title {
+    color: #1f2933;
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+
+.welcome-description {
+    color: #6b7280;
+    font-size: 14px;
+    line-height: 1.7;
+    max-width: 440px;
+    margin: 0 auto 28px;
+}
+
+.enter-button {
+    width: 100%;
+    height: 62px;
+    border: none;
+    border-radius: 16px;
+    background: #1f7a4d;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(31,122,77,0.20);
+}
+
+.enter-button:active {
+    transform: scale(.97);
+}
+
+.welcome-footer {
+    margin-top: 18px;
+    color: #8b9690;
+    font-size: 11px;
+}
+
+/* HEADER */
+
+.header {
+    background: linear-gradient(145deg, #176b43, #23945c);
+    color: white;
+    border-radius: 24px;
+    padding: 23px 18px;
+    text-align: center;
+    margin-bottom: 18px;
+    box-shadow: 0 10px 28px rgba(23,107,67,0.20);
+}
+
+.header-icon {
+    width: 62px;
+    height: 62px;
+    margin: auto;
+    margin-bottom: 10px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+
+.header h1 {
+    font-size: 27px;
+    letter-spacing: 1px;
+}
+
+.header p {
+    margin-top: 5px;
+    font-size: 11px;
+    opacity: 0.9;
+}
+
+/* SCREENS */
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* MENU */
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.menu-button {
+    width: 100%;
+    min-height: 90px;
+    border: none;
+    border-radius: 20px;
+    background: white;
+    box-shadow: 0 7px 22px rgba(0,0,0,0.07);
+    display: flex;
+    align-items: center;
+    padding: 18px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.menu-button:active {
+    transform: scale(.97);
+}
+
+.menu-icon {
+    width: 55px;
+    height: 55px;
+    min-width: 55px;
+    border-radius: 16px;
+    background: #edf8f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+    margin-right: 15px;
+}
+
+.menu-info {
+    flex: 1;
+}
+
+.menu-title {
+    color: #176b43;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.menu-description {
+    color: #7a8580;
+    font-size: 11px;
+}
+
+.menu-arrow {
+    font-size: 28px;
+    color: #a8b0ac;
+}
+
+/* BACK */
+
+.back-button {
+    width: 100%;
+    border: none;
+    background: white;
+    color: #176b43;
+    padding: 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    cursor: pointer;
+    box-shadow: 0 5px 18px rgba(0,0,0,.06);
+}
+
+/* CARD */
+
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 7px 22px rgba(0,0,0,.06);
+}
+
+.card h2 {
+    color: #176b43;
+    font-size: 20px;
+    margin-bottom: 7px;
+}
+
+.card p {
+    color: #6b7280;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* LOCKER LIST */
+
+.locker-list {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.locker-card {
+    width: 100%;
+    border: none;
+    background: white;
+    border-radius: 20px;
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    cursor: pointer;
+    box-shadow: 0 7px 22px rgba(0,0,0,.07);
+}
+
+.locker-card:active {
+    transform: scale(.97);
+}
+
+.locker-icon {
+    width: 55px;
+    height: 55px;
+    min-width: 55px;
+    border-radius: 16px;
+    background: #edf8f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+    margin-right: 14px;
+}
+
+.locker-info {
+    flex: 1;
+}
+
+.locker-name {
+    color: #176b43;
+    font-weight: bold;
+    font-size: 17px;
+    margin-bottom: 6px;
+}
+
+.locker-status {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 20px;
+    background: #edf8f1;
+    color: #168a4a;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.locker-status.charging {
+    background: #fff4d6;
+    color: #b9770e;
+}
+
+.locker-status.unavailable {
+    background: #ffecec;
+    color: #c0392b;
+}
+
+.locker-status.unlocked {
+    background: #e7f5ff;
+    color: #2878a8;
+}
+
+.locker-status.locked {
+    background: #ffecec;
+    color: #c0392b;
+}
+
+.locker-arrow {
+    font-size: 27px;
+    color: #a5adb5;
+}
+
+.door-box {
+    background: #f5f8f6;
+    border-radius: 12px;
+    padding: 10px;
+    margin-top: 12px;
+    font-size: 11px;
+    color: #65706a;
+}
+
+.door-box strong {
+    color: #176b43;
+}
+
+/* MODAL */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,25,17,.65);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    z-index: 1000;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    width: 100%;
+    max-width: 390px;
+    max-height: 94vh;
+    overflow-y: auto;
+    background: white;
+    border-radius: 25px;
+    padding: 22px;
+    text-align: center;
+    box-shadow: 0 20px 55px rgba(0,0,0,.3);
+}
+
+.modal-icon {
+    width: 58px;
+    height: 58px;
+    margin: auto;
+    margin-bottom: 9px;
+    border-radius: 17px;
+    background: #edf8f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+}
+
+.modal-box h2 {
+    color: #176b43;
+    font-size: 20px;
+    margin-bottom: 6px;
+}
+
+.modal-box p {
+    color: #6b7280;
+    font-size: 11px;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+/* QUESTION */
+
+.question-box {
+    background: #fff7df;
+    color: #8a6500;
+    padding: 16px;
+    border-radius: 13px;
+    font-size: 12px;
+    line-height: 1.6;
+    margin-bottom: 14px;
+}
+
+.question-box strong {
+    display: block;
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+/* PIN */
+
+.pin-display {
+    width: 100%;
+    height: 58px;
+    border: 2px solid #dce4df;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: 9px;
+    margin-bottom: 10px;
+    color: #176b43;
+    background: #fafdfb;
+}
+
+.pin-display.empty {
+    color: #a8b0ac;
+    letter-spacing: 4px;
+}
+
+.pin-label {
+    text-align: left;
+    color: #5d6963;
+    font-size: 11px;
+    font-weight: bold;
+    margin-top: 9px;
+    margin-bottom: 5px;
+}
+
+/* KEYPAD */
+
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.key {
+    height: 52px;
+    border: none;
+    border-radius: 12px;
+    background: #f1f5f3;
+    color: #176b43;
+    font-size: 21px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.key:active {
+    transform: scale(.94);
+}
+
+.key.clear {
+    background: #ffeaea;
+    color: #c0392b;
+    font-size: 15px;
+}
+
+.key.backspace {
+    background: #fff4d8;
+    color: #9a6b00;
+}
+
+/* BUTTONS */
+
+.primary-button {
+    width: 100%;
+    height: 51px;
+    border: none;
+    border-radius: 12px;
+    background: #1f7a4d;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+.primary-button:disabled {
+    background: #b8c5be;
+    cursor: not-allowed;
+}
+
+.secondary-button {
+    width: 100%;
+    height: 46px;
+    border: none;
+    border-radius: 12px;
+    background: #eeeeee;
+    color: #555;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 9px;
+}
+
+.just-check-button {
+    width: 100%;
+    height: 48px;
+    border: none;
+    border-radius: 12px;
+    background: #eef5ff;
+    color: #35689a;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 9px;
+}
+
+.confirm-buttons {
+    display: flex;
+    gap: 9px;
+    margin-top: 12px;
+}
+
+.confirm-button {
+    flex: 1;
+    height: 50px;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.yes-button {
+    background: #1f7a4d;
+    color: white;
+}
+
+.no-button {
+    background: #eeeeee;
+    color: #555;
+}
+
+/* MESSAGE */
+
+.message {
+    display: none;
+    padding: 13px;
+    border-radius: 12px;
+    margin-bottom: 14px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.message.show {
+    display: block;
+}
+
+.success {
+    background: #dcf7e6;
+    color: #17613d;
+}
+
+.error {
+    background: #ffe6e6;
+    color: #c0392b;
+}
+
+/* INSTRUCTION */
+
+.instruction {
+    background: #eef8f2;
+    color: #176b43;
+    padding: 13px;
+    border-radius: 12px;
+    font-size: 11px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+/* STATUS */
+
+.status-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 7px 22px rgba(0,0,0,.06);
+}
+
+.status-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+}
+
+.status-row:last-child {
+    border-bottom: none;
+}
+
+.good {
+    color: #168a4a;
+    font-weight: bold;
+}
+
+/* EMERGENCY */
+
+.emergency-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 7px 22px rgba(0,0,0,.06);
+}
+
+.emergency-icon {
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+.emergency-card h2 {
+    color: #c0392b;
+    margin-bottom: 8px;
+}
+
+.emergency-card p {
+    color: #6b7280;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.emergency-button {
+    width: 100%;
+    height: 58px;
+    margin-top: 18px;
+    border: none;
+    border-radius: 14px;
+    background: #c0392b;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+/* EMERGENCY OPTIONS - ADDED ONLY */
+.emergency-options {
+    margin-top: 18px;
+    text-align: left;
+}
+
+.emergency-options-title {
+    color: #5d6963;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 9px;
+}
+
+.accident-option {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 48px;
+    margin-bottom: 8px;
+    padding: 10px 12px;
+    border: 2px solid #eeeeee;
+    border-radius: 12px;
+    background: #fafafa;
+    color: #4b5563;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.accident-option input {
+    margin-right: 10px;
+    accent-color: #c0392b;
+}
+
+.accident-option:has(input:checked) {
+    border-color: #c0392b;
+    background: #fff2f2;
+    color: #a93226;
+    font-weight: bold;
+}
+
+.other-accident {
+    display: none;
+    width: 100%;
+    min-height: 70px;
+    margin-top: 2px;
+    margin-bottom: 8px;
+    padding: 10px;
+    border: 2px solid #eeeeee;
+    border-radius: 12px;
+    resize: vertical;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+}
+
+.other-accident.show {
+    display: block;
+}
+
+/* VIRTUAL KEYBOARD - POPUP STYLE */
+.other-keyboard {
+    display: none;
+    position: fixed;
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%);
+    width: min(760px, calc(100vw - 28px));
+    padding: 16px;
+    box-sizing: border-box;
+    background: #f7faf8;
+    border: 1px solid #d7e2dc;
+    border-radius: 20px;
+    box-shadow: 0 18px 50px rgba(0,0,0,.22);
+    z-index: 9999;
+    gap: 8px;
+}
+
+.other-keyboard.show {
+    display: flex;
+    flex-direction: column;
+}
+
+.other-keyboard::before {
+    content: "DESCRIBE THE EMERGENCY";
+    display: block;
+    text-align: center;
+    color: #176b43;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .4px;
+    margin-bottom: 3px;
+}
+
+.other-keyboard .keyboard-row {
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    width: 100%;
+}
+
+.other-key {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 48px;
+    padding: 0 7px;
+    border: 1px solid #d5ded9;
+    border-radius: 11px;
+    background: #ffffff;
+    color: #176b43;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,.08);
+    transition: transform .08s ease, background .12s ease, box-shadow .12s ease;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+.other-key:hover {
+    background: #f0f7f3;
+}
+
+.other-key:active {
+    transform: scale(.96);
+    background: #dfeee6;
+    box-shadow: 0 1px 2px rgba(0,0,0,.08);
+}
+
+.other-keyboard .middle-row {
+    padding: 0 4%;
+    box-sizing: border-box;
+}
+
+.other-keyboard .bottom-row {
+    padding: 0 9%;
+    box-sizing: border-box;
+}
+
+.keyboard-action-row {
+    display: grid;
+    grid-template-columns: 1.15fr 2.8fr 1.15fr 1.35fr;
+    gap: 7px;
+    width: 100%;
+    margin-top: 2px;
+}
+
+.other-key.space {
+    grid-column: auto;
+}
+
+.other-key.backspace {
+    background: #fff4d8;
+    color: #9a6b00;
+}
+
+.other-key.clear {
+    background: #ffeaea;
+    color: #c0392b;
+}
+
+.other-key.cancel {
+    background: #eaf0ed;
+    color: #46554e;
+}
+
+@media (max-width: 600px) {
+    .other-keyboard {
+        bottom: 10px;
+        width: calc(100vw - 16px);
+        padding: 10px;
+        border-radius: 16px;
+    }
+
+    .other-key {
+        height: 42px;
+        font-size: 13px;
+        border-radius: 9px;
+    }
+
+    .other-keyboard .keyboard-row,
+    .keyboard-action-row {
+        gap: 5px;
+    }
+}
+
+/* FOOTER */
+
+.footer {
+    text-align: center;
+    color: #8b9690;
+    font-size: 10px;
+    margin-top: 20px;
+    line-height: 1.5;
+}
+
+/* SIMULATION DOOR */
+
+.simulation-box {
+    background: #f5f8f6;
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.simulation-box h3 {
+    color: #176b43;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.simulation-box p {
+    font-size: 11px;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+
+.sim-door {
+    position: relative;
+    width: 150px;
+    height: 120px;
+    margin: 14px auto;
+    background: #dfe7e2;
+    border: 5px solid #53645b;
+    border-radius: 10px;
+    overflow: hidden;
+    perspective: 500px;
+}
+
+.sim-door-panel {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, #176b43, #23945c);
+    border-right: 5px solid #0f4f31;
+    transform-origin: left center;
+    transition: transform .45s ease;
+}
+
+.sim-door-panel::after {
+    content: '';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    width: 9px;
+    height: 28px;
+    border-radius: 6px;
+    background: #f4d35e;
+    transform: translateY(-50%);
+}
+
+.sim-door.open .sim-door-panel {
+    transform: rotateY(-72deg);
+}
+
+.sim-door-label {
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+    color: #5d6963;
+    margin-top: 4px;
+}
+
+.door-button {
+    width: 100%;
+    height: 48px;
+    border: none;
+    border-radius: 12px;
+    background: #2878a8;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.device-box {
+    background: #eef5ff;
+    color: #35689a;
+    padding: 12px;
+    border-radius: 12px;
+    margin-top: 10px;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+/* RESET */
+
+.reset-button {
+    width: 100%;
+    height: 45px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 12px;
+    background: #ffeaea;
+    color: #c0392b;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   ABOUT
+   IDADAG LANG - WALANG BINAGO SA EXISTING DESIGN
+========================================================= */
+
+.about-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 7px 22px rgba(0,0,0,.06);
+}
+
+.about-card h2 {
+    color: #176b43;
+    font-size: 20px;
+    margin-bottom: 14px;
+    text-align: center;
+}
+
+.about-card p {
+    color: #5f6964;
+    font-size: 12px;
+    line-height: 1.7;
+    text-align: justify;
+    margin-bottom: 16px;
+}
+
+.about-highlight {
+    background: #eef8f2;
+    color: #176b43;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 11px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.about-highlight strong {
+    font-size: 13px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     WELCOME SCREEN
+     ADDED ONLY
+========================================================= -->
+
+<div id="welcomeScreen" class="welcome-screen">
+
+    <div class="welcome-card">
+
+        <div class="welcome-icon">
+            🏕️
+        </div>
+
+        <h1>
+            WELCOME
+        </h1>
+
+        <div class="welcome-title">
+            BALAKBAK SMART CHARGING LOCKER
+        </div>
+
+        <div class="welcome-description">
+
+            Welcome to the BALAKBAK Smart Charging Locker Kiosk.
+            Securely charge and store your device while staying
+            connected during your mountain adventure.
+
+        </div>
+
+        <button class="enter-button"
+                onclick="enterKiosk()">
+
+            ENTER KIOSK
+
+        </button>
+
+        <div class="welcome-footer">
+
+            Solar-Powered • Secure • Emergency Assistance
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="container">
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <div class="header-icon">
+        🔐
+    </div>
+
+    <h1>BALAKBAK</h1>
+
+    <p>SMART CHARGING LOCKER KIOSK</p>
+
+</div>
+
+
+<!-- ================= MENU ================= -->
+
+<div id="menuScreen" class="screen active">
+
+    <div class="menu">
+
+        <button class="menu-button"
+                onclick="showScreen('emergencyScreen')">
+
+            <div class="menu-icon">🚨</div>
+
+            <div class="menu-info">
+
+                <div class="menu-title">
+                    Emergency
+                </div>
+
+                <div class="menu-description">
+                    Request emergency assistance
+                </div>
+
+            </div>
+
+            <div class="menu-arrow">›</div>
+
+        </button>
+
+
+        <button class="menu-button"
+                onclick="showScreen('lockerScreen')">
+
+            <div class="menu-icon">🔐</div>
+
+            <div class="menu-info">
+
+                <div class="menu-title">
+                    Locker
+                </div>
+
+                <div class="menu-description">
+                    Store or retrieve your device
+                </div>
+
+            </div>
+
+            <div class="menu-arrow">›</div>
+
+        </button>
+
+
+        <button class="menu-button"
+                onclick="showScreen('statusScreen'); loadStatus()">
+
+            <div class="menu-icon">📊</div>
+
+            <div class="menu-info">
+
+                <div class="menu-title">
+                    Status
+                </div>
+
+                <div class="menu-description">
+                    View system and locker status
+                </div>
+
+            </div>
+
+            <div class="menu-arrow">›</div>
+
+        </button>
+
+
+        <button class="menu-button"
+                onclick="showScreen('aboutScreen')">
+
+            <div class="menu-icon">ℹ️</div>
+
+            <div class="menu-info">
+
+                <div class="menu-title">
+                    About
+                </div>
+
+                <div class="menu-description">
+                    Learn why we created this prototype
+                </div>
+
+            </div>
+
+            <div class="menu-arrow">›</div>
+
+        </button>
+
+    </div>
+
+
+    <div class="footer">
+
+        <strong>BALAKBAK</strong><br>
+
+        Smart Charging Locker System<br>
+
+        Web Simulation Prototype
+
+    </div>
+
+</div>
+
+
+<!-- ================= LOCKER SCREEN ================= -->
+
+<div id="lockerScreen" class="screen">
+
+    <button class="back-button"
+            onclick="showScreen('menuScreen')">
+
+        ← BACK TO MENU
+
+    </button>
+
+
+    <div class="card">
+
+        <h2>Select Locker</h2>
+
+        <p>
+            Select a locker to store,
+            retrieve, or check your device.
+        </p>
+
+    </div>
+
+
+    <div id="message" class="message"></div>
+
+
+    <div class="locker-list">
+
+
+        <!-- LOCKER 1 -->
+
+        <button class="locker-card"
+                onclick="selectLocker(1)">
+
+            <div class="locker-icon">
+                🔐
+            </div>
+
+            <div class="locker-info">
+
+                <div class="locker-name">
+                    Locker 1
+                </div>
+
+                <span id="lockerStatus1"
+                      class="locker-status">
+
+                    AVAILABLE
+
+                </span>
+
+                <div id="lockerDoor1"
+                     class="door-box">
+
+                    Door:
+                    <strong>LOCKED</strong>
+
+                </div>
+
+            </div>
+
+            <div class="locker-arrow">
+                ›
+            </div>
+
+        </button>
+
+
+        <!-- LOCKER 2 -->
+
+        <button class="locker-card"
+                onclick="selectLocker(2)">
+
+            <div class="locker-icon">
+                🔐
+            </div>
+
+            <div class="locker-info">
+
+                <div class="locker-name">
+                    Locker 2
+                </div>
+
+                <span id="lockerStatus2"
+                      class="locker-status">
+
+                    AVAILABLE
+
+                </span>
+
+                <div id="lockerDoor2"
+                     class="door-box">
+
+                    Door:
+                    <strong>LOCKED</strong>
+
+                </div>
+
+            </div>
+
+            <div class="locker-arrow">
+                ›
+            </div>
+
+        </button>
+
+
+        <!-- LOCKER 3 -->
+
+        <button class="locker-card"
+                onclick="selectLocker(3)">
+
+            <div class="locker-icon">
+                🔐
+            </div>
+
+            <div class="locker-info">
+
+                <div class="locker-name">
+                    Locker 3
+                </div>
+
+                <span id="lockerStatus3"
+                      class="locker-status">
+
+                    AVAILABLE
+
+                </span>
+
+                <div id="lockerDoor3"
+                     class="door-box">
+
+                    Door:
+                    <strong>LOCKED</strong>
+
+                </div>
+
+            </div>
+
+            <div class="locker-arrow">
+                ›
+            </div>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= STATUS SCREEN ================= -->
+
+<div id="statusScreen" class="screen">
+
+    <button class="back-button"
+            onclick="showScreen('menuScreen')">
+
+        ← BACK TO MENU
+
+    </button>
+
+
+    <div class="status-card">
+
+        <h2 style="color:#176b43;margin-bottom:12px;">
+            System Status
+        </h2>
+
+
+        <div class="status-row">
+            <span>Solar Power</span>
+            <strong id="solarPower" class="good">
+                85 W
+            </strong>
+        </div>
+
+
+        <div class="status-row">
+            <span>Battery</span>
+            <strong id="battery" class="good">
+                87%
+            </strong>
+        </div>
+
+
+        <div class="status-row">
+            <span>Voltage</span>
+            <strong id="voltage">
+                12.6 V
+            </strong>
+        </div>
+
+
+        <div class="status-row">
+            <span>Current</span>
+            <strong id="current">
+                3.2 A
+            </strong>
+        </div>
+
+
+        <div class="status-row">
+            <span>LoRa</span>
+            <strong id="lora" class="good">
+                CONNECTED
+            </strong>
+        </div>
+
+
+        <div class="status-row">
+            <span>Raspberry Pi</span>
+            <strong id="raspberryPi" class="good">
+                SIMULATION
+            </strong>
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>Locker Status</h2>
+
+        <p>
+            Real-time simulated status of all lockers.
+        </p>
+
+
+        <div id="statusLockers"
+             style="margin-top:12px;">
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- ================= ABOUT SCREEN ================= -->
+
+<div id="aboutScreen" class="screen">
+
+    <button class="back-button"
+            onclick="showScreen('menuScreen')">
+
+        ← BACK TO MENU
+
+    </button>
+
+
+    <div class="about-card">
+
+        <div class="modal-icon">
+            ℹ️
+        </div>
+
+
+        <h2>
+            WHY WE MAKE THIS
+        </h2>
+
+
+        <div class="about-highlight">
+
+            Our prototype was developed to address
+            the challenges faced by campers at
+            Mount Balakbak, Rodriguez, Rizal,
+            particularly the lack of reliable
+            electricity and emergency communication.
+
+        </div>
+
+
+        <p>
+            The lack of reliable electricity and emergency
+            communication infrastructure at the campsite
+            of Mount Balakbak, Rodriguez, Rizal significant
+            challenges to both the quality and safety of the
+            outdoor recreation experience of the campers.
+            Campers are unable to recharge their devices,
+            which are essential not only for their convenience
+            but also for their navigation, documentation,
+            and emergency contact. More critically, the
+            absence of cellular coverage in the area means
+            that in the event of accidents, injuries, or
+            other emergencies, campers would have no
+            reliable means of summoning assistance.
+        </p>
+
+
+        <p>
+            To address these challenges, this study proposes
+            an Off-Grid Smart Charging Locker Powered by
+            Solar Energy with LoRa-Based Emergency Assistance
+            for mountain campsites at Mount Balakbak,
+            Rodriguez, Rizal. The proposed system is designed
+            to provide campers with a secure, solar-powered
+            charging station for mobile devices and other
+            essential electronics while integrating a
+            LoRa-based emergency communication system
+            capable of transmitting distress signals in areas
+            without and unreliable cellular network coverage.
+        </p>
+
+
+        <div class="about-highlight">
+
+            <strong>
+                OUR PURPOSE
+            </strong>
+
+            <br><br>
+
+            To provide campers with a secure and
+            solar-powered charging station while
+            providing an alternative emergency
+            communication system for areas with
+            unreliable or unavailable cellular coverage.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= EMERGENCY SCREEN ================= -->
+
+<div id="emergencyScreen" class="screen">
+
+    <button class="back-button"
+            onclick="showScreen('menuScreen')">
+
+        ← BACK TO MENU
+
+    </button>
+
+
+    <div class="emergency-card">
+
+        <div class="emergency-icon">
+            🚨
+        </div>
+
+        <h2>Emergency Assistance</h2>
+
+        <p>
+
+            Press the button below if you need
+            emergency assistance at
+            Mount Balakbak Campsite.
+
+        </p>
+
+
+        <div class="emergency-options">
+
+            <div class="emergency-options-title">
+                WHAT HAPPENED?
+            </div>
+
+            <label class="accident-option">
+                <input type="radio" name="accidentType" value="Physical Injury" onchange="toggleOtherAccident()">
+                <span>🩹 Physical Injury (dislocation, massive wounds, excessive bleeding)</span>
+            </label>
+
+            <label class="accident-option">
+                <input type="radio" name="accidentType" value="Intentional Theft" onchange="toggleOtherAccident()">
+                <span>🚨 Intentional Theft</span>
+            </label>
+
+            <label class="accident-option">
+                <input type="radio" name="accidentType" value="Animal Attack" onchange="toggleOtherAccident()">
+                <span>🐾 Animal Attack</span>
+            </label>
+
+            <label class="accident-option">
+                <input type="radio" name="accidentType" value="Severe Condition" onchange="toggleOtherAccident()">
+                <span>🩺 Severe Condition (hyperventilation, epilepsy, hypothermia)</span>
+            </label>
+
+            <label class="accident-option">
+                <input type="radio" name="accidentType" value="Missing Person" onchange="toggleOtherAccident()">
+                <span>🔎 Missing Person</span>
+            </label>
+
+            <label class="accident-option">
+                <input type="radio" name="accidentType" value="Severe Weather Changed" onchange="toggleOtherAccident()">
+                <span>⛈️ Severe Weather Changed</span>
+            </label>
+
+            <label class="accident-option">
+                <input type="radio" name="accidentType" value="Other" onchange="toggleOtherAccident()">
+                <span>❗ Other</span>
+            </label>
+
+            
+<textarea id="otherAccident"
+          class="other-accident"
+          placeholder="Please describe the emergency..."
+          aria-label="Emergency description"
+          readonly></textarea>
+
+<div id="otherKeyboard" class="other-keyboard">
+    <div class="keyboard-row">
+        <button type="button" class="other-key" onclick="typeOtherKey('Q')">Q</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('W')">W</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('E')">E</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('R')">R</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('T')">T</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('Y')">Y</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('U')">U</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('I')">I</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('O')">O</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('P')">P</button>
+    </div>
+    <div class="keyboard-row middle-row">
+        <button type="button" class="other-key" onclick="typeOtherKey('A')">A</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('S')">S</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('D')">D</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('F')">F</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('G')">G</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('H')">H</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('J')">J</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('K')">K</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('L')">L</button>
+    </div>
+    <div class="keyboard-row bottom-row">
+        <button type="button" class="other-key" onclick="typeOtherKey('Z')">Z</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('X')">X</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('C')">C</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('V')">V</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('B')">B</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('N')">N</button>
+        <button type="button" class="other-key" onclick="typeOtherKey('M')">M</button>
+    </div>
+    <div class="keyboard-action-row">
+        <button type="button" class="other-key clear" onclick="clearOther()">CLEAR</button>
+        <button type="button" class="other-key space" onclick="typeOtherKey(' ')">SPACE</button>
+        <button type="button" class="other-key backspace" onclick="backspaceOther()">⌫</button>
+        <button type="button" class="other-key cancel" onclick="cancelOtherKeyboard()">CANCEL</button>
+    </div>
+</div>
+
+</div>
+
+
+
+
+        <button class="emergency-button"
+                onclick="sendEmergency()">
+
+            🚨 REQUEST HELP
+
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- ================= LOCKER MODAL ================= -->
+
+<div id="lockerModal" class="modal">
+
+<div class="modal-box">
+
+    <div class="modal-icon">
+        🔐
+    </div>
+
+
+    <h2 id="modalTitle">
+        Locker 1
+    </h2>
+
+
+    <p id="modalDescription">
+        Locker information.
+    </p>
+
+
+    <!-- AVAILABLE QUESTION -->
+
+    <div id="useQuestionSection"
+         style="display:none;">
+
+        <div class="question-box">
+
+            This locker is available.
+
+            <strong>
+                Gagamit ka ba ng locker?
+            </strong>
+
+        </div>
+
+
+        <div class="confirm-buttons">
+
+            <button class="confirm-button no-button"
+                    onclick="cancelUseLocker()">
+
+                NO
+
+            </button>
+
+
+            <button class="confirm-button yes-button"
+                    onclick="showCreatePin()">
+
+                YES
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- CREATE PIN -->
+
+    <div id="createSection"
+         style="display:none;">
+
+        <div class="instruction">
+
+            Create a temporary
+            <strong>4-digit PIN</strong>
+            for your locker.
+
+        </div>
+
+
+        <div class="pin-label">
+            PIN
+        </div>
+
+
+        <div id="pinDisplay"
+             class="pin-display empty">
+
+            ••••
+
+        </div>
+
+
+        <div class="pin-label">
+            CONFIRM PIN
+        </div>
+
+
+        <div id="confirmDisplay"
+             class="pin-display empty">
+
+            ••••
+
+        </div>
+
+
+        <div class="keypad">
+
+            <button class="key" onclick="pressKey('1')">1</button>
+            <button class="key" onclick="pressKey('2')">2</button>
+            <button class="key" onclick="pressKey('3')">3</button>
+
+            <button class="key" onclick="pressKey('4')">4</button>
+            <button class="key" onclick="pressKey('5')">5</button>
+            <button class="key" onclick="pressKey('6')">6</button>
+
+            <button class="key" onclick="pressKey('7')">7</button>
+            <button class="key" onclick="pressKey('8')">8</button>
+            <button class="key" onclick="pressKey('9')">9</button>
+
+            <button class="key clear"
+                    onclick="clearPin()">
+                CLEAR
+            </button>
+
+            <button class="key"
+                    onclick="pressKey('0')">
+                0
+            </button>
+
+            <button class="key backspace"
+                    onclick="backspace()">
+                ⌫
+            </button>
+
+        </div>
+
+
+        <button id="createButton"
+                class="primary-button"
+                onclick="createPin()"
+                disabled>
+
+            CREATE PIN
+
+        </button>
+
+    </div>
+
+
+    <!-- RETRIEVE QUESTION -->
+
+    <div id="retrieveConfirmSection"
+         style="display:none;">
+
+        <div class="question-box">
+
+            This locker has your device inside.
+
+            <strong>
+                Kukunin mo na ba ang device mo?
+            </strong>
+
+        </div>
+
+
+        <div class="confirm-buttons">
+
+            <button class="confirm-button no-button"
+                    onclick="cancelRetrieveConfirmation()">
+
+                NO
+
+            </button>
+
+
+            <button class="confirm-button yes-button"
+                    onclick="chooseRetrieve()">
+
+                YES
+
+            </button>
+
+        </div>
+
+
+        <button class="just-check-button"
+                onclick="chooseJustCheck()">
+
+            👁 JUST CHECK MY DEVICE
+
+        </button>
+
+    </div>
+
+
+    <!-- VERIFY PIN -->
+
+    <div id="retrieveSection"
+         style="display:none;">
+
+        <div id="retrieveError"
+             class="message error">
+        </div>
+
+
+        <div class="instruction">
+
+            <strong>
+                CONFIRM YOUR PIN
+            </strong>
+
+            <br>
+
+            Enter the 4-digit PIN you
+            created for this locker.
+
+        </div>
+
+
+        <div id="retrieveDisplay"
+             class="pin-display empty">
+
+            ••••
+
+        </div>
+
+
+        <div class="keypad">
+
+            <button class="key"
+                    onclick="pressRetrieveKey('1')">
+                1
+            </button>
+
+            <button class="key"
+                    onclick="pressRetrieveKey('2')">
+                2
+            </button>
+
+            <button class="key"
+                    onclick="pressRetrieveKey('3')">
+                3
+            </button>
+
+            <button class="key"
+                    onclick="pressRetrieveKey('4')">
+                4
+            </button>
+
+            <button class="key"
+                    onclick="pressRetrieveKey('5')">
+                5
+            </button>
+
+            <button class="key"
+                    onclick="pressRetrieveKey('6')">
+                6
+            </button>
+
+            <button class="key"
+                    onclick="pressRetrieveKey('7')">
+                7
+            </button>
+
+            <button class="key"
+                    onclick="pressRetrieveKey('8')">
+                8
+            </button>
+
+            <button class="key"
+                    onclick="pressRetrieveKey('9')">
+                9
+            </button>
+
+            <button class="key clear"
+                    onclick="clearRetrievePin()">
+                CLEAR
+            </button>
+
+            <button class="key"
+                    onclick="pressRetrieveKey('0')">
+                0
+            </button>
+
+            <button class="key backspace"
+                    onclick="backspaceRetrieve()">
+                ⌫
+            </button>
+
+        </div>
+
+
+        <button class="primary-button"
+                onclick="verifyPin()">
+
+            VERIFY PIN
+
+        </button>
+
+    </div>
+
+
+    <!-- DOOR SIMULATION -->
+
+    <div id="doorSimulation"
+         style="display:none;">
+
+        <div class="instruction">
+
+            🔓 The electronic lock has been
+            unlocked.
+
+            <br><br>
+
+            ⚠️ Door sensor is not installed yet.
+            This web prototype uses a manual door simulation
+            so you can OPEN and CLOSE the locker yourself.
+
+        </div>
+
+
+        <div class="simulation-box">
+
+            <h3>
+                🚪 DOOR SENSOR SIMULATION
+            </h3>
+
+            <p>
+                Use this button to simulate
+                opening/closing the locker door.
+            </p>
+
+
+            <div id="simulatedDoor" class="sim-door">
+                <div class="sim-door-panel"></div>
+            </div>
+
+            <div id="simulatedDoorLabel"
+                 class="sim-door-label">
+                DOOR CLOSED
+            </div>
+
+            <button id="doorSimulationButton"
+                    class="door-button"
+                    onclick="toggleDoor()">
+
+                🚪 OPEN DOOR
+
+            </button>
+
+
+            <div id="deviceSimulation"
+                 class="device-box">
+
+                Device status:
+                <strong>Waiting for action</strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <button class="secondary-button"
+            onclick="closeModal()">
+
+        CANCEL
+
+    </button>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   ENTER KIOSK
+========================================================= */
+
+function enterKiosk() {
+
+    const welcome =
+        document.getElementById(
+            "welcomeScreen"
+        );
+
+    if (welcome) {
+
+        welcome.classList.add(
+            "hidden"
+        );
+
+    }
+
+    showScreen(
+        "menuScreen"
+    );
+
+    resetInactivityTimer();
+
+}
+
+
+/* =========================================================
+   WEB LOCKER CACHE
+========================================================= */
+
+let lockers = {
+
+    1: {
+        status: "AVAILABLE",
+        door: "LOCKED",
+        pin: null,
+        device: false
+    },
+
+    2: {
+        status: "AVAILABLE",
+        door: "LOCKED",
+        pin: null,
+        device: false
+    },
+
+    3: {
+        status: "AVAILABLE",
+        door: "LOCKED",
+        pin: null,
+        device: false
+    }
+
+};
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+let selectedLocker = null;
+
+let pinValue = "";
+
+let confirmPinValue = "";
+
+let retrievePinValue = "";
+
+let lockerAction = null;
+
+let simulationDoorOpen = false;
+
+
+/* =========================================================
+   API SYNCHRONIZATION
+========================================================= */
+
+async function apiRequest(url, options = {}) {
+
+    try {
+
+        const response =
+            await fetch(
+                url,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        ...(options.headers || {})
+                    },
+                    ...options
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Server request failed."
+            );
+
+        }
+
+        return data;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "[API ERROR]",
+            error
+        );
+
+        throw error;
+
+    }
+
+}
+
+
+/* =========================================================
+   SYNC ALL LOCKERS FROM FLASK
+========================================================= */
+
+async function syncLockers() {
+
+    try {
+
+        const data =
+            await apiRequest(
+                "/api/lockers"
+            );
+
+
+        for (
+            let id = 1;
+            id <= 3;
+            id++
+        ) {
+
+            const serverLocker =
+                data[String(id)];
+
+
+            if (!serverLocker) {
+                continue;
+            }
+
+
+            lockers[id] = {
+
+                status:
+                    serverLocker.status,
+
+                door:
+                    serverLocker.door,
+
+                pin:
+                    serverLocker.has_pin
+                        ? true
+                        : null,
+
+                device:
+                    !!serverLocker.device
+
+            };
+
+        }
+
+
+        updateLockers();
+
+    }
+
+    catch (error) {
+
+        console.warn(
+            "Unable to synchronize lockers:",
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SYNC ONE LOCKER
+========================================================= */
+
+async function syncOneLocker(id) {
+
+    try {
+
+        const data =
+            await apiRequest(
+                "/api/lockers/" + id
+            );
+
+
+        if (
+            data.success &&
+            data.locker
+        ) {
+
+            const serverLocker =
+                data.locker;
+
+
+            lockers[id] = {
+
+                status:
+                    serverLocker.status,
+
+                door:
+                    serverLocker.door,
+
+                pin:
+                    serverLocker.has_pin
+                        ? true
+                        : null,
+
+                device:
+                    !!serverLocker.device
+
+            };
+
+
+            updateLockers();
+
+            return serverLocker;
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.warn(
+            "Unable to sync locker " +
+            id +
+            ":",
+            error.message
+        );
+
+    }
+
+    return null;
+
+}
+
+
+/* =========================================================
+   60-SECOND INACTIVITY TIMEOUT
+========================================================= */
+
+let inactivityTimer = null;
+
+const INACTIVITY_LIMIT = 60000;
+
+function resetInactivityTimer() {
+
+    clearTimeout(
+        inactivityTimer
+    );
+
+
+    const welcome =
+        document.getElementById(
+            "welcomeScreen"
+        );
+
+
+    if (
+        welcome &&
+        !welcome.classList.contains(
+            "hidden"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    inactivityTimer =
+        setTimeout(
+            returnToWelcome,
+            INACTIVITY_LIMIT
+        );
+
+}
+
+
+function returnToWelcome() {
+
+    clearTimeout(
+        inactivityTimer
+    );
+
+    inactivityTimer = null;
+
+
+    selectedLocker = null;
+
+    pinValue = "";
+
+    confirmPinValue = "";
+
+    retrievePinValue = "";
+
+    lockerAction = null;
+
+    simulationDoorOpen = false;
+
+
+    document
+        .querySelectorAll(".screen")
+        .forEach(
+            screen =>
+                screen.classList.remove(
+                    "active"
+                )
+        );
+
+
+    const welcome =
+        document.getElementById(
+            "welcomeScreen"
+        );
+
+
+    if (welcome) {
+
+        welcome.classList.remove(
+            "hidden"
+        );
+
+    }
+
+}
+
+
+// Any user interaction resets the 60-second countdown.
+
+[
+    "click",
+    "touchstart",
+    "keydown",
+    "mousemove"
+].forEach(
+    eventName => {
+
+        document.addEventListener(
+            eventName,
+            resetInactivityTimer,
+            {
+                passive: true
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   SCREEN
+========================================================= */
+
+function showScreen(id) {
+
+    document
+        .querySelectorAll(".screen")
+        .forEach(
+            screen =>
+                screen.classList.remove(
+                    "active"
+                )
+        );
+
+
+    const target =
+        document.getElementById(id);
+
+
+    if (target) {
+
+        target.classList.add(
+            "active"
+        );
+
+    }
+
+
+    if (
+        id ===
+        "lockerScreen"
+    ) {
+
+        syncLockers();
+
+    }
+
+
+    if (
+        id ===
+        "statusScreen"
+    ) {
+
+        loadStatus();
+
+    }
+
+
+    resetInactivityTimer();
+
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+function showMessage(
+    text,
+    type
+) {
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    if (!message) {
+        return;
+    }
+
+
+    message.innerText =
+        text;
+
+
+    message.className =
+        "message show " +
+        type;
+
+
+    setTimeout(
+        () => {
+
+            message.className =
+                "message";
+
+        },
+        5000
+    );
+
+}
+
+
+/* =========================================================
+   UPDATE LOCKERS
+========================================================= */
+
+function updateLockers() {
+
+    for (
+        let id = 1;
+        id <= 3;
+        id++
+    ) {
+
+        const locker =
+            lockers[id];
+
+
+        const status =
+            document.getElementById(
+                "lockerStatus" + id
+            );
+
+
+        const door =
+            document.getElementById(
+                "lockerDoor" + id
+            );
+
+
+        if (
+            !locker ||
+            !status ||
+            !door
+        ) {
+
+            continue;
+
+        }
+
+
+        status.innerText =
+            locker.status;
+
+
+        status.className =
+            "locker-status";
+
+
+        if (
+            locker.status ===
+            "CHARGING"
+        ) {
+
+            status.classList.add(
+                "charging"
+            );
+
+        }
+
+
+        if (
+            locker.status ===
+            "UNAVAILABLE"
+        ) {
+
+            status.classList.add(
+                "unavailable"
+            );
+
+        }
+
+
+        if (
+            locker.door ===
+            "OPEN"
+        ) {
+
+            status.classList.add(
+                "unlocked"
+            );
+
+        }
+
+
+        if (
+            locker.door ===
+            "LOCKED"
+        ) {
+
+            status.classList.add(
+                "locked"
+            );
+
+        }
+
+
+        door.innerHTML =
+            "Door: <strong>" +
+            locker.door +
+            "</strong>";
+
+    }
+
+}
+
+
+/* =========================================================
+   SELECT LOCKER
+========================================================= */
+
+async function selectLocker(id) {
+
+    selectedLocker =
+        id;
+
+
+    const latest =
+        await syncOneLocker(id);
+
+
+    const locker =
+        latest || lockers[id];
+
+
+    if (!locker) {
+        return;
+    }
+
+
+    openLockerModal(
+        locker
+    );
+
+}
+
+
+/* =========================================================
+   OPEN MODAL
+========================================================= */
+
+function openLockerModal(
+    locker
+) {
+
+    const modal =
+        document.getElementById(
+            "lockerModal"
+        );
+
+
+    document.getElementById(
+        "modalTitle"
+    ).innerText =
+        "Locker " +
+        selectedLocker;
+
+
+    hideAllModalSections();
+
+
+    lockerAction =
+        null;
+
+
+    simulationDoorOpen =
+        false;
+
+
+    if (
+        locker.status ===
+        "AVAILABLE" &&
+        !locker.device
+    ) {
+
+        document.getElementById(
+            "modalDescription"
+        ).innerText =
+            "Locker " +
+            selectedLocker +
+            " is available.";
+
+
+        document.getElementById(
+            "useQuestionSection"
+        ).style.display =
+            "block";
+
+    }
+
+
+    else {
+
+        document.getElementById(
+            "modalDescription"
+        ).innerText =
+            "Locker " +
+            selectedLocker +
+            " contains your device.";
+
+
+        document.getElementById(
+            "retrieveConfirmSection"
+        ).style.display =
+            "block";
+
+    }
+
+
+    modal.classList.add(
+        "show"
+    );
+
+}
+
+
+/* =========================================================
+   HIDE MODAL
+========================================================= */
+
+function hideAllModalSections() {
+
+    document.getElementById(
+        "useQuestionSection"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "createSection"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "retrieveConfirmSection"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "retrieveSection"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "doorSimulation"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =========================================================
+   CLOSE MODAL
+========================================================= */
+
+function closeModal() {
+
+    document.getElementById(
+        "lockerModal"
+    ).classList.remove(
+        "show"
+    );
+
+
+    pinValue = "";
+
+    confirmPinValue = "";
+
+    retrievePinValue = "";
+
+    lockerAction = null;
+
+    selectedLocker = null;
+
+    simulationDoorOpen = false;
+
+}
+
+
+/* =========================================================
+   NO - USE LOCKER
+========================================================= */
+
+function cancelUseLocker() {
+
+    closeModal();
+
+}
+
+
+/* =========================================================
+   SHOW CREATE PIN
+========================================================= */
+
+function showCreatePin() {
+
+    hideAllModalSections();
+
+
+    document.getElementById(
+        "modalDescription"
+    ).innerText =
+        "Create a temporary 4-digit PIN.";
+
+
+    pinValue = "";
+
+    confirmPinValue = "";
+
+
+    updatePinDisplays();
+
+
+    document.getElementById(
+        "createSection"
+    ).style.display =
+        "block";
+
+}
+
+
+/* =========================================================
+   CREATE PIN KEYPAD
+========================================================= */
+
+function pressKey(number) {
+
+    if (
+        pinValue.length < 4
+    ) {
+
+        pinValue +=
+            number;
+
+    }
+
+    else if (
+        confirmPinValue.length < 4
+    ) {
+
+        confirmPinValue +=
+            number;
+
+    }
+
+
+    updatePinDisplays();
+
+}
+
+
+/* =========================================================
+   PIN DISPLAY
+========================================================= */
+
+function updatePinDisplays() {
+
+    const pinDisplay =
+        document.getElementById(
+            "pinDisplay"
+        );
+
+
+    const confirmDisplay =
+        document.getElementById(
+            "confirmDisplay"
+        );
+
+
+    pinDisplay.innerText =
+        pinValue.length > 0
+            ? "●".repeat(
+                pinValue.length
+              )
+            : "••••";
+
+
+    confirmDisplay.innerText =
+        confirmPinValue.length > 0
+            ? "●".repeat(
+                confirmPinValue.length
+              )
+            : "••••";
+
+
+    pinDisplay.className =
+        pinValue.length > 0
+            ? "pin-display"
+            : "pin-display empty";
+
+
+    confirmDisplay.className =
+        confirmPinValue.length > 0
+            ? "pin-display"
+            : "pin-display empty";
+
+
+    const createButton =
+        document.getElementById(
+            "createButton"
+        );
+
+
+    createButton.disabled =
+        !(
+            pinValue.length === 4 &&
+            confirmPinValue.length === 4 &&
+            pinValue ===
+            confirmPinValue
+        );
+
+}
+
+
+/* =========================================================
+   BACKSPACE
+========================================================= */
+
+function backspace() {
+
+    if (
+        confirmPinValue.length > 0
+    ) {
+
+        confirmPinValue =
+            confirmPinValue.slice(
+                0,
+                -1
+            );
+
+    }
+
+    else if (
+        pinValue.length > 0
+    ) {
+
+        pinValue =
+            pinValue.slice(
+                0,
+                -1
+            );
+
+    }
+
+
+    updatePinDisplays();
+
+}
+
+
+/* =========================================================
+   CLEAR PIN
+========================================================= */
+
+function clearPin() {
+
+    pinValue = "";
+
+    confirmPinValue = "";
+
+    updatePinDisplays();
+
+}
+
+
+/* =========================================================
+   CREATE PIN
+========================================================= */
+
+async function createPin() {
+
+    if (
+        selectedLocker ===
+        null
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        pinValue.length !== 4 ||
+        confirmPinValue.length !== 4
+    ) {
+
+        alert(
+            "Please enter a complete 4-digit PIN."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        pinValue !==
+        confirmPinValue
+    ) {
+
+        alert(
+            "PIN and Confirm PIN do not match."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const result =
+            await apiRequest(
+                "/api/lockers/" +
+                selectedLocker +
+                "/create-pin",
+                {
+                    method: "POST",
+
+                    body: JSON.stringify({
+                        pin:
+                            pinValue
+                    })
+                }
+            );
+
+
+        if (
+            !result.success
+        ) {
+
+            throw new Error(
+                result.message
+            );
+
+        }
+
+
+        await apiRequest(
+            "/api/lockers/" +
+            selectedLocker +
+            "/action",
+            {
+                method: "POST",
+
+                body: JSON.stringify({
+                    action:
+                        "deposit"
+                })
+            }
+        );
+
+
+        await unlockLockerFromServer(
+            "deposit"
+        );
+
+    }
+
+    catch (error) {
+
+        alert(
+            "Unable to create locker PIN:\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   UNLOCK LOCKER THROUGH FLASK
+========================================================= */
+
+async function unlockLockerFromServer(
+    action
+) {
+
+    try {
+
+        const result =
+            await apiRequest(
+                "/api/lockers/" +
+                selectedLocker +
+                "/unlock",
+                {
+                    method: "POST"
+                }
+            );
+
+
+        if (
+            !result.success
+        ) {
+
+            throw new Error(
+                result.message
+            );
+
+        }
+
+
+        if (
+            result.locker
+        ) {
+
+            lockers[selectedLocker] = {
+
+                status:
+                    result.locker.status,
+
+                door:
+                    result.locker.door,
+
+                pin:
+                    result.locker.has_pin
+                        ? true
+                        : null,
+
+                device:
+                    !!result.locker.device
+
+            };
+
+        }
+
+
+        lockerAction =
+            action;
+
+
+        showDoorSimulation(
+            action
+        );
+
+
+        updateLockers();
+
+    }
+
+    catch (error) {
+
+        alert(
+            "Unable to unlock Locker " +
+            selectedLocker +
+            ":\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DOOR SIMULATION
+========================================================= */
+
+function showDoorSimulation(
+    action
+) {
+
+    hideAllModalSections();
+
+
+    document.getElementById(
+        "doorSimulation"
+    ).style.display =
+        "block";
+
+
+    simulationDoorOpen =
+        false;
+
+
+    const button =
+        document.getElementById(
+            "doorSimulationButton"
+        );
+
+
+    const device =
+        document.getElementById(
+            "deviceSimulation"
+        );
+
+
+    button.innerText =
+        "🚪 OPEN DOOR";
+
+
+    const simulatedDoor =
+        document.getElementById(
+            "simulatedDoor"
+        );
+
+
+    const simulatedDoorLabel =
+        document.getElementById(
+            "simulatedDoorLabel"
+        );
+
+
+    if (
+        simulatedDoor
+    ) {
+
+        simulatedDoor.classList.remove(
+            "open"
+        );
+
+    }
+
+
+    if (
+        simulatedDoorLabel
+    ) {
+
+        simulatedDoorLabel.innerText =
+            "DOOR CLOSED";
+
+    }
+
+
+    if (
+        action ===
+        "deposit"
+    ) {
+
+        document.getElementById(
+            "modalDescription"
+        ).innerText =
+            "Locker unlocked. Place your device inside.";
+
+
+        device.innerHTML =
+            "Device status: <strong>Waiting for device</strong>";
+
+    }
+
+
+    if (
+        action ===
+        "retrieve"
+    ) {
+
+        document.getElementById(
+            "modalDescription"
+        ).innerText =
+            "Locker unlocked. Retrieve your device.";
+
+
+        device.innerHTML =
+            "Device status: <strong>Device is inside</strong>";
+
+    }
+
+
+    if (
+        action ===
+        "check"
+    ) {
+
+        document.getElementById(
+            "modalDescription"
+        ).innerText =
+            "Locker unlocked. You may check your device.";
+
+
+        device.innerHTML =
+            "Device status: <strong>Device is charging</strong>";
+
+    }
+
+
+    document.getElementById(
+        "doorSimulation"
+    ).dataset.action =
+        action;
+
+}
+
+
+/* =========================================================
+   TOGGLE DOOR
+   ONLY CLOSE-DOOR DELAY MODIFIED
+========================================================= */
+
+async function toggleDoor() {
+
+    const action =
+        document.getElementById(
+            "doorSimulation"
+        ).dataset.action;
+
+
+    const button =
+        document.getElementById(
+            "doorSimulationButton"
+        );
+
+
+    const device =
+        document.getElementById(
+            "deviceSimulation"
+        );
+
+
+    if (
+        !simulationDoorOpen
+    ) {
+
+        simulationDoorOpen =
+            true;
+
+
+        button.innerText =
+            "🔒 CLOSE DOOR";
+
+
+        const simulatedDoor =
+            document.getElementById(
+                "simulatedDoor"
+            );
+
+
+        const simulatedDoorLabel =
+            document.getElementById(
+                "simulatedDoorLabel"
+            );
+
+
+        if (
+            simulatedDoor
+        ) {
+
+            simulatedDoor.classList.add(
+                "open"
+            );
+
+        }
+
+
+        if (
+            simulatedDoorLabel
+        ) {
+
+            simulatedDoorLabel.innerText =
+                "DOOR OPEN";
+
+        }
+
+
+        device.innerHTML =
+            "Simulated door sensor: <strong>OPEN</strong>";
+
+
+        updateLockers();
+
+
+        return;
+
+    }
+
+
+    /*
+       CLOSE DOOR
+
+       MODIFIED ONLY HERE:
+       No 300ms delay.
+       The kiosk immediately returns to the
+       locker display while Flask synchronizes
+       the locker state in the background.
+    */
+
+    simulationDoorOpen =
+        false;
+
+
+    const simulatedDoor =
+        document.getElementById(
+            "simulatedDoor"
+        );
+
+
+    const simulatedDoorLabel =
+        document.getElementById(
+            "simulatedDoorLabel"
+        );
+
+
+    if (
+        simulatedDoor
+    ) {
+
+        simulatedDoor.classList.remove(
+            "open"
+        );
+
+    }
+
+
+    if (
+        simulatedDoorLabel
+    ) {
+
+        simulatedDoorLabel.innerText =
+            "DOOR CLOSED";
+
+    }
+
+
+    button.innerText =
+        "🚪 OPEN DOOR";
+
+
+    /*
+       Save the selected locker ID before
+       closeModal() clears selectedLocker.
+    */
+
+    const lockerId =
+        selectedLocker;
+
+
+    /*
+       Return immediately to Locker Display.
+    */
+
+    closeModal();
+
+    showScreen(
+        "lockerScreen"
+    );
+
+
+    /*
+       Synchronize with Flask in the background.
+       This does not delay the return to the
+       locker display.
+    */
+
+    syncOneLocker(
+        lockerId
+    ).then(
+        () => {
+
+            const locker =
+                lockers[lockerId];
+
+
+            if (
+                !locker
+            ) {
+
+                return;
+
+            }
+
+
+            if (
+                action ===
+                "deposit"
+            ) {
+
+                if (
+                    locker.device
+                ) {
+
+                    showMessage(
+                        "Device stored successfully. Locker is now CHARGING and LOCKED.",
+                        "success"
+                    );
+
+                }
+
+                return;
+
+            }
+
+
+            if (
+                action ===
+                "retrieve"
+            ) {
+
+                if (
+                    !locker.device &&
+                    locker.status ===
+                    "AVAILABLE"
+                ) {
+
+                    showMessage(
+                        "Device retrieved successfully. Locker is now AVAILABLE and LOCKED.",
+                        "success"
+                    );
+
+                }
+
+                return;
+
+            }
+
+
+            if (
+                action ===
+                "check"
+            ) {
+
+                if (
+                    locker.device
+                ) {
+
+                    showMessage(
+                        "Check completed. Locker is now CHARGING and LOCKED. Your PIN remains active.",
+                        "success"
+                    );
+
+                }
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   RETRIEVE - NO
+========================================================= */
+
+function cancelRetrieveConfirmation() {
+
+    closeModal();
+
+}
+
+
+/* =========================================================
+   RETRIEVE
+========================================================= */
+
+function chooseRetrieve() {
+
+    lockerAction =
+        "retrieve";
+
+
+    showPinVerification();
+
+}
+
+
+/* =========================================================
+   JUST CHECK
+========================================================= */
+
+function chooseJustCheck() {
+
+    lockerAction =
+        "check";
+
+
+    showPinVerification();
+
+}
+
+
+/* =========================================================
+   SHOW PIN VERIFICATION
+========================================================= */
+
+function showPinVerification() {
+
+    hideAllModalSections();
+
+
+    document.getElementById(
+        "modalDescription"
+    ).innerText =
+        "Confirm your PIN for Locker " +
+        selectedLocker;
+
+
+    retrievePinValue =
+        "";
+
+
+    updateRetrieveDisplay();
+
+
+    document.getElementById(
+        "retrieveError"
+    ).innerText =
+        "";
+
+
+    document.getElementById(
+        "retrieveError"
+    ).className =
+        "message error";
+
+
+    document.getElementById(
+        "retrieveSection"
+    ).style.display =
+        "block";
+
+}
+
+
+/* =========================================================
+   RETRIEVE KEYPAD
+========================================================= */
+
+function pressRetrieveKey(
+    number
+) {
+
+    if (
+        retrievePinValue.length >=
+        4
+    ) {
+
+        return;
+
+    }
+
+
+    retrievePinValue +=
+        number;
+
+
+    updateRetrieveDisplay();
+
+}
+
+
+/* =========================================================
+   RETRIEVE DISPLAY
+========================================================= */
+
+function updateRetrieveDisplay() {
+
+    const display =
+        document.getElementById(
+            "retrieveDisplay"
+        );
+
+
+    display.innerText =
+        retrievePinValue.length > 0
+            ? "●".repeat(
+                retrievePinValue.length
+              )
+            : "••••";
+
+
+    display.className =
+        retrievePinValue.length > 0
+            ? "pin-display"
+            : "pin-display empty";
+
+}
+
+
+/* =========================================================
+   RETRIEVE BACKSPACE
+========================================================= */
+
+function backspaceRetrieve() {
+
+    retrievePinValue =
+        retrievePinValue.slice(
+            0,
+            -1
+        );
+
+
+    updateRetrieveDisplay();
+
+}
+
+
+/* =========================================================
+   RETRIEVE CLEAR
+========================================================= */
+
+function clearRetrievePin() {
+
+    retrievePinValue =
+        "";
+
+
+    updateRetrieveDisplay();
+
+}
+
+
+/* =========================================================
+   VERIFY PIN
+========================================================= */
+
+async function verifyPin() {
+
+    if (
+        retrievePinValue.length !==
+        4
+    ) {
+
+        showRetrieveError(
+            "PIN must be exactly 4 digits."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !selectedLocker
+    ) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const result =
+            await apiRequest(
+                "/api/lockers/" +
+                selectedLocker +
+                "/verify-pin",
+                {
+                    method: "POST",
+
+                    body: JSON.stringify({
+                        pin:
+                            retrievePinValue
+                    })
+                }
+            );
+
+
+        if (
+            !result.success
+        ) {
+
+            showRetrieveError(
+                result.message
+            );
+
+            return;
+
+        }
+
+
+        await apiRequest(
+            "/api/lockers/" +
+            selectedLocker +
+            "/action",
+            {
+                method: "POST",
+
+                body: JSON.stringify({
+                    action:
+                        lockerAction
+                })
+            }
+        );
+
+
+        await unlockLockerFromServer(
+            lockerAction
+        );
+
+    }
+
+    catch (error) {
+
+        showRetrieveError(
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   PIN ERROR
+========================================================= */
+
+function showRetrieveError(
+    text
+) {
+
+    const error =
+        document.getElementById(
+            "retrieveError"
+        );
+
+
+    error.innerText =
+        text;
+
+
+    error.className =
+        "message show error";
+
+
+    retrievePinValue =
+        "";
+
+
+    updateRetrieveDisplay();
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+async function loadStatus() {
+
+    try {
+
+        const status =
+            await apiRequest(
+                "/api/status"
+            );
+
+
+        document.getElementById(
+            "solarPower"
+        ).innerText =
+            status.solar_power +
+            " W";
+
+
+        document.getElementById(
+            "battery"
+        ).innerText =
+            status.battery +
+            "%";
+
+
+        document.getElementById(
+            "voltage"
+        ).innerText =
+            status.voltage +
+            " V";
+
+
+        document.getElementById(
+            "current"
+        ).innerText =
+            status.current +
+            " A";
+
+
+        document.getElementById(
+            "lora"
+        ).innerText =
+            status.lora;
+
+
+        document.getElementById(
+            "raspberryPi"
+        ).innerText =
+            status.raspberry_pi;
+
+
+        if (
+            status.lockers
+        ) {
+
+            for (
+                let id = 1;
+                id <= 3;
+                id++
+            ) {
+
+                const serverLocker =
+                    status.lockers[
+                        String(id)
+                    ];
+
+
+                if (
+                    serverLocker
+                ) {
+
+                    lockers[id] = {
+
+                        status:
+                            serverLocker.status,
+
+                        door:
+                            serverLocker.door,
+
+                        pin:
+                            serverLocker.has_pin
+                                ? true
+                                : null,
+
+                        device:
+                            !!serverLocker.device
+
+                    };
+
+                }
+
+            }
+
+        }
+
+
+        updateLockers();
+
+
+        const container =
+            document.getElementById(
+                "statusLockers"
+            );
+
+
+        container.innerHTML =
+            "";
+
+
+        for (
+            let id = 1;
+            id <= 3;
+            id++
+        ) {
+
+            const locker =
+                lockers[id];
+
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "status-row";
+
+
+            row.innerHTML = `
+
+                <span>
+                    Locker ${id}
+                </span>
+
+                <strong>
+                    ${locker.status}
+                    /
+                    ${locker.door}
+                </strong>
+
+            `;
+
+
+            container.appendChild(
+                row
+            );
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.warn(
+            "Unable to load system status:",
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   EMERGENCY
+========================================================= */
+
+function toggleOtherAccident() {
+
+    const otherInput =
+        document.getElementById("otherAccident");
+
+    const selected =
+        document.querySelector('input[name="accidentType"]:checked');
+
+    const otherKeyboard =
+        document.getElementById("otherKeyboard");
+
+    if (!otherInput || !otherKeyboard) {
+        return;
+    }
+
+    if (selected && selected.value === "Other") {
+        otherInput.classList.add("show");
+        otherKeyboard.classList.add("show");
+    } else {
+        otherInput.classList.remove("show");
+        otherKeyboard.classList.remove("show");
+        otherInput.value = "";
+    }
+}
+
+
+function cancelOtherKeyboard() {
+
+    const otherInput =
+        document.getElementById("otherAccident");
+
+    const otherKeyboard =
+        document.getElementById("otherKeyboard");
+
+    const otherRadio =
+        document.querySelector('input[name="accidentType"][value="Other"]');
+
+    if (otherKeyboard) {
+        otherKeyboard.classList.remove("show");
+    }
+
+    if (otherInput) {
+        otherInput.classList.remove("show");
+        otherInput.value = "";
+    }
+
+    if (otherRadio) {
+        otherRadio.checked = false;
+    }
+}
+
+
+function typeOtherKey(
+    character
+) {
+
+    const input =
+        document.getElementById(
+            "otherAccident"
+        );
+
+
+    if (!input) {
+        return;
+    }
+
+
+    input.value +=
+        character;
+
+
+    input.scrollTop =
+        input.scrollHeight;
+
+}
+
+
+function backspaceOther() {
+
+    const input =
+        document.getElementById(
+            "otherAccident"
+        );
+
+
+    if (!input) {
+        return;
+    }
+
+
+    input.value =
+        input.value.slice(
+            0,
+            -1
+        );
+
+}
+
+
+function clearOther() {
+
+    const input =
+        document.getElementById(
+            "otherAccident"
+        );
+
+
+    if (!input) {
+        return;
+    }
+
+
+    input.value =
+        "";
+
+}
+
+
+/* =========================================================
+   SEND EMERGENCY TO FLASK
+========================================================= */
+
+async function sendEmergency() {
+
+    const selected =
+        document.querySelector(
+            'input[name="accidentType"]:checked'
+        );
+
+
+    if (!selected) {
+
+        alert(
+            "Please select the type of emergency first."
+        );
+
+        return;
+
+    }
+
+
+    let accidentType =
+        selected.value;
+
+
+    let description =
+        "";
+
+
+    if (
+        accidentType ===
+        "Other"
+    ) {
+
+        const otherDetails =
+            document.getElementById(
+                "otherAccident"
+            ).value.trim();
+
+
+        if (
+            !otherDetails
+        ) {
+
+            alert(
+                "Please describe the emergency."
+            );
+
+            return;
+
+        }
+
+
+        description =
+            otherDetails;
+
+
+        accidentType =
+            "Other";
+
+    }
+
+
+    const confirmed =
+        confirm(
+            "Emergency Type:\n" +
+            (
+                accidentType === "Other"
+                    ? accidentType +
+                      " - " +
+                      description
+                    : accidentType
+            ) +
+            "\n\nAre you sure you want to request emergency assistance?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const result =
+            await apiRequest(
+                "/api/emergency/send",
+                {
+                    method: "POST",
+
+                    body: JSON.stringify({
+
+                        type:
+                            accidentType,
+
+                        description:
+                            description,
+
+                        location:
+                            "Mount Balakbak Campsite"
+
+                    })
+                }
+            );
+
+
+        if (
+            !result.success
+        ) {
+
+            throw new Error(
+                result.message
+            );
+
+        }
+
+
+        alert(
+            "🚨 EMERGENCY REQUEST SENT!\n\n" +
+
+            "Emergency: " +
+            (
+                accidentType ===
+                "Other"
+                    ? accidentType +
+                      " - " +
+                      description
+                    : accidentType
+            ) +
+
+            "\n\n" +
+
+            "Request ID: " +
+            result.emergency.id +
+
+            "\n\n" +
+
+            "Status: " +
+            result.emergency.status
+        );
+
+
+        const radios =
+            document.querySelectorAll(
+                'input[name="accidentType"]'
+            );
+
+
+        radios.forEach(
+            radio =>
+                radio.checked = false
+        );
+
+
+        clearOther();
+
+
+        toggleOtherAccident();
+
+    }
+
+    catch (error) {
+
+        alert(
+            "Unable to send emergency request:\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   RESET SYSTEM
+========================================================= */
+
+async function resetSystem() {
+
+    const confirmed =
+        confirm(
+            "Reset all lockers?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const result =
+            await apiRequest(
+                "/api/reset",
+                {
+                    method: "POST"
+                }
+            );
+
+
+        if (
+            !result.success
+        ) {
+
+            throw new Error(
+                result.message
+            );
+
+        }
+
+
+        await syncLockers();
+
+
+        alert(
+            "All lockers have been reset."
+        );
+
+    }
+
+    catch (error) {
+
+        alert(
+            "Unable to reset lockers:\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+updateLockers();
+
+
+syncLockers();
+
+
+setInterval(
+    syncLockers,
+    1000
+);
+
+
+setInterval(
+    () => {
+
+        const statusScreen =
+            document.getElementById(
+                "statusScreen"
+            );
+
+
+        if (
+            statusScreen &&
+            statusScreen.classList.contains(
+                "active"
+            )
+        ) {
+
+            loadStatus();
+
+        }
+
+    },
+    2000
+);
+
+
+/* =========================================================
+   CLOSE MODAL WHEN CLICKING OUTSIDE
+========================================================= */
+
+document
+    .getElementById(
+        "lockerModal"
+    )
+    .addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target ===
+                this
+            ) {
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+
+</script>
+
+</body>
+</html>

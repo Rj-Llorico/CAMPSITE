@@ -1,0 +1,3437 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>BALAKBAK Owner Dashboard</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(180deg, #edf7f0, #f8faf9);
+    color: #1f2933;
+    padding: 20px;
+}
+
+/* _________________________________________________________
+   LOGIN
+____________________________________________________________ */
+
+.login-container {
+    min-height: calc(100vh - 40px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    border-radius: 25px;
+    padding: 35px 25px;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(0,0,0,.10);
+}
+
+.login-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 18px;
+    border-radius: 22px;
+    background: linear-gradient(145deg, #176b43, #23945c);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+}
+
+.login-card h1 {
+    color: #176b43;
+    font-size: 27px;
+    margin-bottom: 7px;
+}
+
+.login-card p {
+    color: #6b7280;
+    font-size: 12px;
+    margin-bottom: 25px;
+}
+
+.login-input {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 12px;
+    padding: 0 14px;
+    border: 2px solid #e0e7e3;
+    border-radius: 12px;
+    font-size: 14px;
+    outline: none;
+}
+
+.login-input:focus {
+    border-color: #23945c;
+}
+
+.login-button {
+    width: 100%;
+    height: 52px;
+    border: none;
+    border-radius: 13px;
+    background: #1f7a4d;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.login-button:hover {
+    background: #176b43;
+}
+
+.login-error {
+    display: none;
+    margin-top: 14px;
+    padding: 11px;
+    border-radius: 10px;
+    background: #ffe6e6;
+    color: #c0392b;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+.dashboard {
+    display: none;
+}
+
+.header {
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    background: linear-gradient(145deg, #176b43, #23945c);
+    color: white;
+    border-radius: 24px;
+    padding: 22px 25px;
+    box-shadow: 0 10px 28px rgba(23,107,67,.20);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 17px;
+    background: rgba(255,255,255,.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 29px;
+}
+
+.header h1 {
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+.header p {
+    font-size: 11px;
+    opacity: .9;
+}
+
+.logout-button {
+    border: none;
+    border-radius: 11px;
+    padding: 12px 18px;
+    background: #c0392b;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background: #a93226;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.section-title {
+    color: #176b43;
+    font-size: 21px;
+    margin: 25px 0 14px;
+}
+
+/* =========================================================
+   MAIN MENU
+========================================================= */
+
+.main-menu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.menu-card {
+    background: white;
+    border: none;
+    border-radius: 22px;
+    padding: 30px 20px;
+    min-height: 180px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.07);
+    cursor: pointer;
+    text-align: center;
+    transition: .2s;
+}
+
+.menu-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,.11);
+}
+
+.menu-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 15px;
+    border-radius: 20px;
+    background: #edf8f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 38px;
+}
+
+.menu-card h2 {
+    color: #176b43;
+    font-size: 19px;
+    margin-bottom: 7px;
+}
+
+.menu-card p {
+    color: #7a8580;
+    font-size: 11px;
+}
+
+/* =========================================================
+   PAGE SECTIONS
+========================================================= */
+
+.app-section {
+    display: none;
+}
+
+.app-section.active {
+    display: block;
+}
+
+.back-button {
+    border: none;
+    background: white;
+    color: #176b43;
+    border-radius: 12px;
+    padding: 11px 17px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,.06);
+    margin-bottom: 5px;
+}
+
+.back-button:hover {
+    background: #edf8f1;
+}
+
+/* =========================================================
+   SYSTEM STATUS
+========================================================= */
+
+.system-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.system-card {
+    background: white;
+    border-radius: 18px;
+    padding: 19px;
+    box-shadow: 0 7px 22px rgba(0,0,0,.06);
+}
+
+.system-icon {
+    font-size: 25px;
+    margin-bottom: 9px;
+}
+
+.system-label {
+    color: #7a8580;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+.system-value {
+    color: #176b43;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* =========================================================
+   LOCKERS
+========================================================= */
+
+.locker-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.locker-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 7px 22px rgba(0,0,0,.07);
+    border: 2px solid transparent;
+}
+
+.locker-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.locker-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.locker-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 13px;
+    background: #edf8f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+}
+
+.locker-title h3 {
+    color: #176b43;
+    font-size: 18px;
+}
+
+.status-badge {
+    padding: 6px 9px;
+    border-radius: 20px;
+    font-size: 9px;
+    font-weight: bold;
+}
+
+.status-available {
+    background: #edf8f1;
+    color: #168a4a;
+}
+
+.status-charging {
+    background: #fff4d6;
+    color: #b9770e;
+}
+
+.status-unavailable {
+    background: #ffecec;
+    color: #c0392b;
+}
+
+/* =========================================================
+   LOCKER INFORMATION
+========================================================= */
+
+.info-box {
+    background: #f7faf8;
+    border-radius: 13px;
+    padding: 5px 13px;
+    margin-bottom: 15px;
+}
+
+.info-row {
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e6ece8;
+    font-size: 12px;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    color: #718078;
+}
+
+.info-value {
+    color: #26332d;
+    font-weight: bold;
+}
+
+.device-connected {
+    color: #168a4a;
+}
+
+.device-disconnected {
+    color: #9a6b00;
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+.reset-button {
+    width: 100%;
+    height: 49px;
+    border: none;
+    border-radius: 12px;
+    background: #ffeaea;
+    color: #c0392b;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.reset-button:hover {
+    background: #ffdada;
+}
+
+.reset-button:disabled {
+    background: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+}
+
+/* =========================================================
+   EMERGENCY
+========================================================= */
+
+.emergency-box {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 7px 22px rgba(0,0,0,.07);
+}
+
+.emergency-empty {
+    text-align: center;
+    padding: 45px 20px;
+    color: #7a8580;
+    font-size: 13px;
+}
+
+.emergency-options {
+    margin-top: 18px;
+}
+
+.emergency-options-title {
+    color: #176b43;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.accident-option {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    width: 100%;
+    min-height: 50px;
+    margin-bottom: 8px;
+    padding: 11px 13px;
+    background: #f7faf8;
+    border: 1.5px solid #e2ebe5;
+    border-radius: 13px;
+    color: #33423a;
+    font-size: 12px;
+    line-height: 1.35;
+    cursor: pointer;
+    transition: .15s;
+}
+
+.accident-option:hover {
+    background: #edf8f1;
+    border-color: #b9d9c5;
+}
+
+.accident-option input {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+    accent-color: #1f7a4d;
+}
+
+.accident-option:has(input:checked) {
+    background: #edf8f1;
+    border-color: #23945c;
+    box-shadow: 0 3px 10px rgba(31,122,77,.08);
+}
+
+.emergency-request {
+    background: #fff5f5;
+    border: 2px solid #f1b5b0;
+    border-radius: 15px;
+    padding: 18px;
+    margin-bottom: 12px;
+}
+
+.emergency-request:last-child {
+    margin-bottom: 0;
+}
+
+.emergency-title {
+    color: #c0392b;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.emergency-text {
+    color: #4b5563;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+.emergency-button {
+    width: 100%;
+    min-height: 52px;
+    border: none;
+    border-radius: 13px;
+    padding: 12px 15px;
+    background: linear-gradient(145deg, #c0392b, #a93226);
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(192,57,43,.18);
+    margin-top: 10px;
+}
+
+.emergency-button:hover {
+    filter: brightness(.96);
+}
+
+/* OTHER EMERGENCY PHONE-STYLE KEYBOARD */
+
+.other-emergency-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0;
+    background: rgba(8,20,13,.58);
+}
+
+.other-emergency-popup.show {
+    display: flex;
+}
+
+.other-keyboard-panel {
+    width: 100%;
+    max-width: 520px;
+    max-height: 96vh;
+    overflow-y: auto;
+    background: #f4f6f5;
+    border-radius: 26px 26px 0 0;
+    padding: 16px 14px 18px;
+    box-shadow: 0 -15px 45px rgba(0,0,0,.25);
+    animation: otherKeyboardUp .18s ease-out;
+}
+
+@keyframes otherKeyboardUp {
+    from { transform: translateY(25px); opacity: .6; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.other-popup-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.other-popup-title {
+    color: #176b43;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.other-popup-subtitle {
+    color: #7a8580;
+    font-size: 10px;
+    margin-top: 2px;
+}
+
+.other-accident {
+    display: block;
+    width: 100%;
+    min-height: 66px;
+    max-height: 90px;
+    margin: 8px 0 12px;
+    padding: 13px 14px;
+    border: 2px solid #dce6df;
+    border-radius: 15px;
+    resize: none;
+    outline: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #26332d;
+    background: white;
+}
+
+.other-accident:focus {
+    border-color: #23945c;
+}
+
+.other-keyboard {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 6px;
+    padding: 2px;
+}
+
+.other-key {
+    height: 46px;
+    border: 1px solid #d9e1dc;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #24342b;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 3px rgba(0,0,0,.08);
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+.other-key:active {
+    transform: translateY(1px);
+    background: #e9f5ed;
+}
+
+.other-key.space {
+    grid-column: span 6;
+    font-size: 12px;
+    color: #176b43;
+}
+
+.other-key.backspace {
+    grid-column: span 2;
+    background: #fff4d8;
+    color: #8a6500;
+    font-size: 20px;
+}
+
+.other-key.clear {
+    grid-column: span 2;
+    background: #ffeaea;
+    color: #c0392b;
+    font-size: 11px;
+}
+
+.other-cancel {
+    width: 100%;
+    height: 48px;
+    margin-top: 10px;
+    border: 1px solid #d4ddd7;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #5d6963;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.other-cancel:active {
+    background: #edf1ee;
+}
+
+@media (max-width: 430px) {
+    .emergency-box {
+        padding: 16px;
+    }
+
+    .accident-option {
+        font-size: 11px;
+        min-height: 48px;
+    }
+
+    .other-keyboard {
+        gap: 5px;
+    }
+
+    .other-key {
+        height: 43px;
+        font-size: 14px;
+    }
+}
+
+/* =========================================================
+   SYNC INDICATOR
+========================================================= */
+
+.sync-box {
+    max-width: 1200px;
+    margin: 20px auto 0;
+    background: white;
+    border-radius: 15px;
+    padding: 13px 16px;
+    box-shadow: 0 5px 18px rgba(0,0,0,.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+}
+
+.sync-status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #168a4a;
+    font-weight: bold;
+}
+
+.sync-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #168a4a;
+}
+
+.last-sync {
+    color: #8b9690;
+}
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.message {
+    position: fixed;
+    left: 50%;
+    top: 20px;
+    transform: translateX(-50%);
+    z-index: 9999;
+    min-width: 280px;
+    max-width: 90%;
+    padding: 14px 18px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    display: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,.18);
+}
+
+.message.show {
+    display: block;
+}
+
+.message.success {
+    background: #dcf7e6;
+    color: #17613d;
+}
+
+.message.error {
+    background: #ffe6e6;
+    color: #c0392b;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 950px) {
+
+    .locker-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .system-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .main-menu {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 650px) {
+
+    body {
+        padding: 12px;
+    }
+
+    .header {
+        padding: 18px;
+    }
+
+    .header-left {
+        align-items: flex-start;
+    }
+
+    .header h1 {
+        font-size: 20px;
+    }
+
+    .header p {
+        font-size: 10px;
+    }
+
+    .header-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+
+    .locker-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .system-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+@media (max-width: 430px) {
+
+    .header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .logout-button {
+        width: 100%;
+    }
+
+    .system-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-card {
+        min-height: 155px;
+        padding: 25px 20px;
+    }
+
+}
+
+
+/* =========================================================
+   DARK / LIGHT MODE — ADDED ONLY
+========================================================= */
+.theme-button{width:44px;height:44px;border:1px solid rgba(255,255,255,.22);border-radius:12px;background:rgba(255,255,255,.14);color:white;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;-webkit-tap-highlight-color:transparent}
+.theme-button:hover{background:rgba(255,255,255,.22)}
+.theme-button:active{transform:scale(.95)}
+.header-actions{display:flex;align-items:center;gap:9px}
+body.dark-mode{background:linear-gradient(180deg,#101814,#17221c);color:#e8f0eb}
+body.dark-mode .login-card,body.dark-mode .menu-card,body.dark-mode .system-card,body.dark-mode .locker-card,body.dark-mode .emergency-box,body.dark-mode .sync-box{background:#1b2721;color:#e8f0eb;box-shadow:0 8px 25px rgba(0,0,0,.30)}
+body.dark-mode .login-card h1,body.dark-mode .section-title,body.dark-mode .menu-card h2,body.dark-mode .locker-title h3,body.dark-mode .system-value,body.dark-mode .emergency-options-title,body.dark-mode .other-popup-title{color:#62d69a}
+body.dark-mode .login-card p,body.dark-mode .menu-card p,body.dark-mode .system-label,body.dark-mode .info-label,body.dark-mode .emergency-empty,body.dark-mode .other-popup-subtitle,body.dark-mode .last-sync{color:#aab8b0}
+body.dark-mode .login-input{background:#121b16;color:#edf7f1;border-color:#34453b}
+body.dark-mode .login-input::placeholder,body.dark-mode .other-accident::placeholder{color:#829189}
+body.dark-mode .back-button{background:#26352d;color:#72dba4;box-shadow:0 5px 15px rgba(0,0,0,.25)}
+body.dark-mode .back-button:hover{background:#30443a}
+body.dark-mode .menu-icon,body.dark-mode .locker-icon{background:#20372b}
+body.dark-mode .info-box{background:#142019}
+body.dark-mode .info-row{border-bottom-color:#304139}
+body.dark-mode .info-value{color:#e1ebe5}
+body.dark-mode .accident-option{background:#17241d;border-color:#33453b;color:#e4eee8}
+body.dark-mode .accident-option:hover,body.dark-mode .accident-option:has(input:checked){background:#20372b;border-color:#3f9d6a}
+body.dark-mode .emergency-request{background:#301d1d;border-color:#75413d}
+body.dark-mode .emergency-text{color:#c7d0cb}
+body.dark-mode .other-keyboard-panel{background:#18221d}
+body.dark-mode .other-accident{background:#101814;color:#edf7f1;border-color:#35463c}
+body.dark-mode .other-key{background:#26352d;border-color:#3a4b41;color:#eef6f1}
+body.dark-mode .other-key:active{background:#315440}
+body.dark-mode .other-cancel{background:#26352d;border-color:#3a4b41;color:#c5d0ca}
+body.dark-mode .other-cancel:active{background:#30443a}
+body.dark-mode .message.success{background:#183b29;color:#8de0ae}
+body.dark-mode .message.error{background:#3a2020;color:#ffaaa2}
+body.dark-mode .status-available{background:#1c3a29;color:#72dba4}
+body.dark-mode .status-charging{background:#3b321c;color:#e7c86e}
+body.dark-mode .status-unavailable{background:#3b2020;color:#ff9e96}
+body.dark-mode .reset-button{background:#3a2222;color:#ff9e96}
+body.dark-mode .reset-button:hover{background:#472727}
+body.dark-mode .reset-button:disabled{background:#303733;color:#89938e}
+@media(max-width:430px){.header-actions{width:100%}.theme-button{flex:0 0 48px}.header-actions .logout-button{flex:1;width:auto}}
+
+/* LOGIN THEME BUTTON — ADDED ONLY */
+.login-card { position: relative; }
+.login-theme-button { position:absolute; top:15px; right:15px; width:42px; height:42px; border:1px solid #dfe7e2; border-radius:50%; background:#f4f8f5; color:#176b43; font-size:19px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:.2s; z-index:5; }
+.login-theme-button:hover { transform:scale(1.05); }
+.login-theme-button:active { transform:scale(.94); }
+body.dark-mode .login-theme-button { background:#26352d; border-color:#3a4b41; color:#f4d76b; }
+</style>
+
+</head>
+
+<body>
+
+<!-- =========================================================
+     LOGIN
+========================================================= -->
+
+<div id="loginPage" class="login-container">
+
+    <div class="login-card">
+
+        <button id="loginThemeToggle" class="login-theme-button" type="button" title="Switch to dark mode" aria-label="Switch to dark mode">🌙</button>
+
+        <div class="login-icon">
+            🔐
+        </div>
+
+        <h1>OWNER LOGIN</h1>
+
+        <p>
+            BALAKBAK Smart Charging Locker
+        </p>
+
+        <input
+            id="username"
+            class="login-input"
+            type="text"
+            placeholder="Username"
+            autocomplete="username"
+        >
+
+        <input
+            id="password"
+            class="login-input"
+            type="password"
+            placeholder="Password"
+            autocomplete="current-password"
+        >
+
+        <button
+            id="loginButton"
+            class="login-button"
+            type="button">
+
+            LOGIN
+
+        </button>
+
+        <div id="loginError" class="login-error">
+            Invalid username or password.
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     DASHBOARD
+========================================================= -->
+
+<div id="dashboard" class="dashboard">
+
+    <div class="header">
+
+        <div class="header-left">
+
+            <div class="header-icon">
+                🔋
+            </div>
+
+            <div>
+
+                <h1>
+                    BALAKBAK OWNER
+                </h1>
+
+                <p>
+                    SMART CHARGING LOCKER MANAGEMENT
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="header-actions">
+
+            <button
+                id="themeToggle"
+                class="theme-button"
+                type="button"
+                title="Switch theme"
+                aria-label="Switch theme">
+
+                🌙
+
+            </button>
+
+            <button
+                id="logoutButton"
+                class="logout-button"
+                type="button">
+
+                LOGOUT
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+
+        <!-- =================================================
+             MAIN MENU
+        ================================================= -->
+
+        <div id="mainMenu" class="main-menu">
+
+            <button
+                id="emergencyMenu"
+                class="menu-card"
+                type="button">
+
+                <div class="menu-icon">
+                    🚨
+                </div>
+
+                <h2>
+                    Emergency
+                </h2>
+
+                <p>
+                    View emergency requests
+                </p>
+
+            </button>
+
+
+            <button
+                id="lockerMenu"
+                class="menu-card"
+                type="button">
+
+                <div class="menu-icon">
+                    🔐
+                </div>
+
+                <h2>
+                    Locker
+                </h2>
+
+                <p>
+                    Monitor and reset lockers
+                </p>
+
+            </button>
+
+
+            <button
+                id="statusMenu"
+                class="menu-card"
+                type="button">
+
+                <div class="menu-icon">
+                    ☀️
+                </div>
+
+                <h2>
+                    Status
+                </h2>
+
+                <p>
+                    View system status
+                </p>
+
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             EMERGENCY SECTION
+        ================================================= -->
+
+        <div
+            id="emergencySection"
+            class="app-section">
+
+            <button
+                class="back-button"
+                type="button"
+                onclick="showMainMenu()">
+
+                ← BACK TO MENU
+
+            </button>
+
+            <h2 class="section-title">
+                🚨 EMERGENCY ASSISTANCE
+            </h2>
+
+            <div class="emergency-box">
+
+                <div class="emergency-options">
+
+                    <div class="emergency-options-title">
+                        WHAT HAPPENED?
+                    </div>
+
+                    <label class="accident-option">
+                        <input type="radio" name="accidentType" value="Physical Injury" onchange="toggleOtherAccident()">
+                        <span>🩹 Physical Injury (dislocation, massive wounds, excessive bleeding)</span>
+                    </label>
+
+                    <label class="accident-option">
+                        <input type="radio" name="accidentType" value="Intentional Theft" onchange="toggleOtherAccident()">
+                        <span>🚨 Intentional Theft</span>
+                    </label>
+
+                    <label class="accident-option">
+                        <input type="radio" name="accidentType" value="Animal Attack" onchange="toggleOtherAccident()">
+                        <span>🐾 Animal Attack</span>
+                    </label>
+
+                    <label class="accident-option">
+                        <input type="radio" name="accidentType" value="Severe Condition" onchange="toggleOtherAccident()">
+                        <span>🩺 Severe Condition (hyperventilation, epilepsy, hypothermia)</span>
+                    </label>
+
+                    <label class="accident-option">
+                        <input type="radio" name="accidentType" value="Missing Person" onchange="toggleOtherAccident()">
+                        <span>🔎 Missing Person</span>
+                    </label>
+
+                    <label class="accident-option">
+                        <input type="radio" name="accidentType" value="Severe Weather Changed" onchange="toggleOtherAccident()">
+                        <span>⛈️ Severe Weather Changed</span>
+                    </label>
+
+                    <label class="accident-option">
+                        <input type="radio" name="accidentType" value="Other" onchange="toggleOtherAccident()">
+                        <span>❗ Other</span>
+                    </label>
+
+                </div>
+
+                <button
+                    class="emergency-button"
+                    type="button"
+                    onclick="sendEmergency()">
+
+                    🚨 REQUEST HELP
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- OTHER EMERGENCY PHONE KEYBOARD -->
+        <div
+            id="otherEmergencyPopup"
+            class="other-emergency-popup">
+
+            <div class="other-keyboard-panel">
+
+                <div class="other-popup-header">
+                    <div>
+                        <div class="other-popup-title">
+                            ❗ Describe the emergency
+                        </div>
+                        <div class="other-popup-subtitle">
+                            Type the details using the keyboard below.
+                        </div>
+                    </div>
+                </div>
+
+                <textarea
+                    id="otherAccident"
+                    class="other-accident"
+                    placeholder="Please describe the emergency..."
+                    readonly></textarea>
+
+                <div id="otherKeyboard" class="other-keyboard">
+
+                    <button class="other-key" type="button" onclick="typeOtherKey('Q')">Q</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('W')">W</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('E')">E</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('R')">R</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('T')">T</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('Y')">Y</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('U')">U</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('I')">I</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('O')">O</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('P')">P</button>
+
+                    <button class="other-key" type="button" onclick="typeOtherKey('A')">A</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('S')">S</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('D')">D</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('F')">F</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('G')">G</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('H')">H</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('J')">J</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('K')">K</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('L')">L</button>
+
+                    <button class="other-key" type="button" onclick="typeOtherKey('Z')">Z</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('X')">X</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('C')">C</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('V')">V</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('B')">B</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('N')">N</button>
+                    <button class="other-key" type="button" onclick="typeOtherKey('M')">M</button>
+
+                    <button class="other-key space" type="button" onclick="typeOtherKey(' ')">SPACE</button>
+                    <button class="other-key backspace" type="button" onclick="backspaceOther()">⌫</button>
+                    <button class="other-key clear" type="button" onclick="clearOther()">CLEAR</button>
+
+                </div>
+
+                <button
+                    class="other-cancel"
+                    type="button"
+                    onclick="cancelOtherEmergency()">
+                    CANCEL — BACK TO EMERGENCY
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             LOCKER SECTION
+        ================================================= -->
+
+        <div
+            id="lockerSection"
+            class="app-section">
+
+            <button
+                class="back-button"
+                type="button"
+                onclick="showMainMenu()">
+
+                ← BACK TO MENU
+
+            </button>
+
+            <h2 class="section-title">
+                🔐 LOCKER STATUS
+            </h2>
+
+            <div class="locker-grid">
+
+
+                <!-- LOCKER 1 -->
+
+                <div
+                    id="lockerCard1"
+                    class="locker-card">
+
+                    <div class="locker-top">
+
+                        <div class="locker-title">
+
+                            <div class="locker-icon">
+                                🔐
+                            </div>
+
+                            <h3>
+                                Locker 1
+                            </h3>
+
+                        </div>
+
+                        <span
+                            id="statusBadge1"
+                            class="status-badge status-available">
+
+                            AVAILABLE
+
+                        </span>
+
+                    </div>
+
+                    <div class="info-box">
+
+                        <div class="info-row">
+
+                            <span class="info-label">
+                                Locker Status
+                            </span>
+
+                            <span
+                                id="status1"
+                                class="info-value">
+
+                                AVAILABLE
+
+                            </span>
+
+                        </div>
+
+                        <div class="info-row">
+
+                            <span class="info-label">
+                                Door
+                            </span>
+
+                            <span
+                                id="door1"
+                                class="info-value">
+
+                                LOCKED
+
+                            </span>
+
+                        </div>
+
+                        <div class="info-row">
+
+                            <span class="info-label">
+                                PIN
+                            </span>
+
+                            <span
+                                id="pin1"
+                                class="info-value">
+
+                                EMPTY
+
+                            </span>
+
+                        </div>
+
+                        <div class="info-row">
+
+                            <span class="info-label">
+                                Device
+                            </span>
+
+                            <span
+                                id="device1"
+                                class="info-value device-disconnected">
+
+                                NOT CONNECTED
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <button
+                        id="resetLocker1"
+                        class="reset-button"
+                        type="button">
+
+                        🔄 RESET LOCKER 1
+
+                    </button>
+
+                </div>
+
+
+                <!-- LOCKER 2 -->
+
+                <div
+                    id="lockerCard2"
+                    class="locker-card">
+
+                    <div class="locker-top">
+
+                        <div class="locker-title">
+
+                            <div class="locker-icon">
+                                🔐
+                            </div>
+
+                            <h3>
+                                Locker 2
+                            </h3>
+
+                        </div>
+
+                        <span
+                            id="statusBadge2"
+                            class="status-badge status-available">
+
+                            AVAILABLE
+
+                        </span>
+
+                    </div>
+
+                    <div class="info-box">
+
+                        <div class="info-row">
+
+                            <span class="info-label">
+                                Locker Status
+                            </span>
+
+                            <span
+                                id="status2"
+                                class="info-value">
+
+                                AVAILABLE
+
+                            </span>
+
+                        </div>
+
+                        <div class="info-row">
+
+                            <span class="info-label">
+                                Door
+                            </span>
+
+                            <span
+                                id="door2"
+                                class="info-value">
+
+                                LOCKED
+
+                            </span>
+
+                        </div>
+
+                        <div class="info-row">
+
+                            <span class="info-label">
+                                PIN
+                            </span>
+
+                            <span
+                                id="pin2"
+                                class="info-value">
+
+                                EMPTY
+
+                            </span>
+
+                        </div>
+
+                        <div class="info-row">
+
+                            <span class="info-label">
+                                Device
+                            </span>
+
+                            <span
+                                id="device2"
+                                class="info-value device-disconnected">
+
+                                NOT CONNECTED
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <button
+                        id="resetLocker2"
+                        class="reset-button"
+                        type="button">
+
+                        🔄 RESET LOCKER 2
+
+                    </button>
+
+                </div>
+
+
+                <!-- LOCKER 3 -->
+
+                <div
+                    id="lockerCard3"
+                    class="locker-card">
+
+                    <div class="locker-top">
+
+                        <div class="locker-title">
+
+                            <div class="locker-icon">
+                                🔐
+                            </div>
+
+                            <h3>
+                                Locker 3
+                            </h3>
+
+                        </div>
+
+                        <span
+                            id="statusBadge3"
+                            class="status-badge status-available">
+
+                            AVAILABLE
+
+                        </span>
+
+                    </div>
+
+                    <div class="info-box">
+
+                        <div class="info-row">
+
+                            <span class="info-label">
+                                Locker Status
+                            </span>
+
+                            <span
+                                id="status3"
+                                class="info-value">
+
+                                AVAILABLE
+
+                            </span>
+
+                        </div>
+
+                        <div class="info-row">
+
+                            <span class="info-label">
+                                Door
+                            </span>
+
+                            <span
+                                id="door3"
+                                class="info-value">
+
+                                LOCKED
+
+                            </span>
+
+                        </div>
+
+                        <div class="info-row">
+
+                            <span class="info-label">
+                                PIN
+                            </span>
+
+                            <span
+                                id="pin3"
+                                class="info-value">
+
+                                EMPTY
+
+                            </span>
+
+                        </div>
+
+                        <div class="info-row">
+
+                            <span class="info-label">
+                                Device
+                            </span>
+
+                            <span
+                                id="device3"
+                                class="info-value device-disconnected">
+
+                                NOT CONNECTED
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <button
+                        id="resetLocker3"
+                        class="reset-button"
+                        type="button">
+
+                        🔄 RESET LOCKER 3
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             STATUS SECTION
+        ================================================= -->
+
+        <div
+            id="statusSection"
+            class="app-section">
+
+            <button
+                class="back-button"
+                type="button"
+                onclick="showMainMenu()">
+
+                ← BACK TO MENU
+
+            </button>
+
+            <h2 class="section-title">
+                ☀️ SYSTEM STATUS
+            </h2>
+
+            <div class="system-grid">
+
+                <div class="system-card">
+
+                    <div class="system-icon">
+                        ☀️
+                    </div>
+
+                    <div class="system-label">
+                        SOLAR POWER
+                    </div>
+
+                    <div
+                        id="solarPower"
+                        class="system-value">
+
+                        --
+
+                    </div>
+
+                </div>
+
+
+                <div class="system-card">
+
+                    <div class="system-icon">
+                        🔋
+                    </div>
+
+                    <div class="system-label">
+                        BATTERY
+                    </div>
+
+                    <div
+                        id="battery"
+                        class="system-value">
+
+                        --
+
+                    </div>
+
+                </div>
+
+
+                <div class="system-card">
+
+                    <div class="system-icon">
+                        ⚡
+                    </div>
+
+                    <div class="system-label">
+                        VOLTAGE
+                    </div>
+
+                    <div
+                        id="voltage"
+                        class="system-value">
+
+                        --
+
+                    </div>
+
+                </div>
+
+
+                <div class="system-card">
+
+                    <div class="system-icon">
+                        🔌
+                    </div>
+
+                    <div class="system-label">
+                        CURRENT
+                    </div>
+
+                    <div
+                        id="current"
+                        class="system-value">
+
+                        --
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             SYNC
+        ================================================= -->
+
+        <div class="sync-box">
+
+            <div class="sync-status">
+
+                <span class="sync-dot"></span>
+
+                <span id="syncText">
+                    CONNECTED TO FLASK / SQLITE
+                </span>
+
+            </div>
+
+            <div
+                id="lastSync"
+                class="last-sync">
+
+                Last sync: --
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="message" class="message"></div>
+
+
+<script>
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const loginPage =
+    document.getElementById("loginPage");
+
+const dashboard =
+    document.getElementById("dashboard");
+
+const usernameInput =
+    document.getElementById("username");
+
+const passwordInput =
+    document.getElementById("password");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const logoutButton =
+    document.getElementById("logoutButton");
+
+const loginError =
+    document.getElementById("loginError");
+
+/* =========================================================
+   DARK / LIGHT MODE — ADDED ONLY
+========================================================= */
+const themeToggle = document.getElementById("themeToggle");
+
+function applySavedTheme() {
+    const savedTheme = localStorage.getItem("balakbakOwnerTheme");
+    const isDark = savedTheme === "dark";
+    document.body.classList.toggle("dark-mode", isDark);
+    if (themeToggle) {
+        themeToggle.innerText = isDark ? "☀️" : "🌙";
+        themeToggle.title = isDark ? "Switch to light mode" : "Switch to dark mode";
+        themeToggle.setAttribute("aria-label", themeToggle.title);
+    }
+}
+
+if (themeToggle) {
+    themeToggle.onclick = function() {
+        const isDark = !document.body.classList.contains("dark-mode");
+        localStorage.setItem("balakbakOwnerTheme", isDark ? "dark" : "light");
+        applySavedTheme();
+    };
+}
+
+applySavedTheme();
+
+
+const mainMenu =
+    document.getElementById("mainMenu");
+
+const emergencySection =
+    document.getElementById("emergencySection");
+
+const lockerSection =
+    document.getElementById("lockerSection");
+
+const statusSection =
+    document.getElementById("statusSection");
+
+
+/* =========================================================
+   MENU NAVIGATION
+========================================================= */
+
+function hideAllSections() {
+
+    mainMenu.style.display = "none";
+
+    emergencySection.classList.remove("active");
+
+    lockerSection.classList.remove("active");
+
+    statusSection.classList.remove("active");
+
+}
+
+
+function showMainMenu() {
+
+    hideAllSections();
+
+    mainMenu.style.display = "grid";
+
+}
+
+
+function showEmergency() {
+
+    hideAllSections();
+
+    emergencySection.classList.add("active");
+
+    loadEmergency();
+
+}
+
+
+function showLocker() {
+
+    hideAllSections();
+
+    lockerSection.classList.add("active");
+
+    loadLockers();
+
+}
+
+
+function showStatus() {
+
+    hideAllSections();
+
+    statusSection.classList.add("active");
+
+    loadSystemStatus();
+
+}
+
+
+document.getElementById(
+    "emergencyMenu"
+).onclick = showEmergency;
+
+
+document.getElementById(
+    "lockerMenu"
+).onclick = showLocker;
+
+
+document.getElementById(
+    "statusMenu"
+).onclick = showStatus;
+
+
+/* =========================================================
+   ANDROID NOTIFICATION SUPPORT
+========================================================= */
+
+function sendAndroidNotification(title, message) {
+
+    console.log(
+        "[OWNER] Trying Android notification..."
+    );
+
+    try {
+
+        if (
+            typeof Android !== "undefined" &&
+            Android !== null &&
+            typeof Android.showNotification === "function"
+        ) {
+
+            Android.showNotification(
+                String(title),
+                String(message)
+            );
+
+            console.log(
+                "[OWNER] ANDROID NOTIFICATION SENT"
+            );
+
+            return true;
+
+        }
+
+        console.log(
+            "[OWNER] Android notification bridge unavailable."
+        );
+
+        return false;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "[OWNER] ANDROID NOTIFICATION ERROR:",
+            error
+        );
+
+        return false;
+
+    }
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+loginButton.onclick = login;
+
+passwordInput.onkeydown = function(event) {
+
+    if (event.key === "Enter") {
+
+        login();
+
+    }
+
+};
+
+
+async function login() {
+
+    const username =
+        usernameInput.value.trim();
+
+    const password =
+        passwordInput.value;
+
+    loginError.style.display = "none";
+
+    if (!username || !password) {
+
+        loginError.innerText =
+            "Please enter username and password.";
+
+        loginError.style.display =
+            "block";
+
+        return;
+
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/login",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json"
+                    },
+
+                    cache: "no-store",
+
+                    body:
+                        JSON.stringify({
+
+                            username:
+                                username,
+
+                            password:
+                                password
+
+                        })
+
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (
+            response.ok &&
+            data.success
+        ) {
+
+            loginPage.style.display =
+                "none";
+
+            dashboard.style.display =
+                "block";
+
+            console.log(
+                "[OWNER] LOGIN SUCCESS"
+            );
+
+            previousLockerStates = {};
+
+            firstLockerLoad = true;
+
+            showMainMenu();
+
+            loadAll();
+
+        }
+
+        else {
+
+            loginError.innerText =
+                data.message ||
+                "Invalid username or password.";
+
+            loginError.style.display =
+                "block";
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "[OWNER] LOGIN ERROR:",
+            error
+        );
+
+        loginError.innerText =
+            "Cannot connect to Flask server.";
+
+        loginError.style.display =
+            "block";
+
+    }
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+logoutButton.onclick = function() {
+
+    dashboard.style.display =
+        "none";
+
+    loginPage.style.display =
+        "flex";
+
+    usernameInput.value = "";
+
+    passwordInput.value = "";
+
+    previousLockerStates = {};
+
+    firstLockerLoad = true;
+
+    showMainMenu();
+
+    console.log(
+        "[OWNER] LOGGED OUT"
+    );
+
+};
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+let messageTimer = null;
+
+
+function showMessage(
+    text,
+    type
+) {
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+    message.innerText =
+        text;
+
+    message.className =
+        "message show " +
+        type;
+
+    clearTimeout(
+        messageTimer
+    );
+
+    messageTimer =
+        setTimeout(
+            function() {
+
+                message.className =
+                    "message";
+
+            },
+            4000
+        );
+
+}
+
+
+/* =========================================================
+   LOCKER CHANGE TRACKING
+========================================================= */
+
+let previousLockerStates = {};
+
+let firstLockerLoad = true;
+
+
+function wasLockerOccupied(previous) {
+
+    if (!previous) {
+
+        return false;
+
+    }
+
+    const previousStatus =
+        String(
+            previous.status || ""
+        ).toUpperCase();
+
+    const hadPin =
+        previous.has_pin === true ||
+        previous.has_pin === 1 ||
+        previous.has_pin === "1";
+
+    const hadDevice =
+        previous.device === true ||
+        previous.device === 1 ||
+        previous.device === "1";
+
+    return (
+        previousStatus === "CHARGING" ||
+        previousStatus === "UNAVAILABLE" ||
+        hadPin ||
+        hadDevice
+    );
+
+}
+
+
+function detectLockerReset(
+    id,
+    locker
+) {
+
+    if (firstLockerLoad) {
+
+        return;
+
+    }
+
+    const previous =
+        previousLockerStates[id];
+
+    if (!previous) {
+
+        return;
+
+    }
+
+    const currentStatus =
+        String(
+            locker.status || ""
+        ).toUpperCase();
+
+    const currentHasPin =
+        locker.has_pin === true ||
+        locker.has_pin === 1 ||
+        locker.has_pin === "1";
+
+    const currentDevice =
+        locker.device === true ||
+        locker.device === 1 ||
+        locker.device === "1";
+
+    const resetDetected =
+        wasLockerOccupied(previous) &&
+        currentStatus === "AVAILABLE" &&
+        !currentHasPin &&
+        !currentDevice;
+
+    if (resetDetected) {
+
+        console.log(
+            "[OWNER] RESET DETECTED FOR LOCKER:",
+            id
+        );
+
+        showMessage(
+            "🔄 Locker " +
+            id +
+            " has been reset.",
+            "success"
+        );
+
+        sendAndroidNotification(
+            "🔄 BALAKBAK Locker Reset",
+            "Locker " +
+            id +
+            " has been reset and is now AVAILABLE."
+        );
+
+    }
+
+    previousLockerStates[id] = {
+
+        status:
+            currentStatus,
+
+        door:
+            String(
+                locker.door ||
+                "LOCKED"
+            ).toUpperCase(),
+
+        has_pin:
+            currentHasPin,
+
+        device:
+            currentDevice
+
+    };
+
+}
+
+
+/* =========================================================
+   LOAD ALL
+========================================================= */
+
+async function loadAll() {
+
+    await loadLockers();
+
+    await loadSystemStatus();
+
+    await loadEmergency();
+
+}
+
+
+/* =========================================================
+   LOAD LOCKERS
+========================================================= */
+
+async function loadLockers() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/lockers",
+                {
+
+                    method: "GET",
+
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    },
+
+                    cache: "no-store"
+
+                }
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "HTTP " +
+                response.status
+            );
+
+        }
+
+        const data =
+            await response.json();
+
+        console.log(
+            "[OWNER] LOCKER DATA:",
+            data
+        );
+
+        for (
+            let id = 1;
+            id <= 3;
+            id++
+        ) {
+
+            const locker =
+                data[String(id)];
+
+            if (locker) {
+
+                detectLockerReset(
+                    id,
+                    locker
+                );
+
+                updateLocker(
+                    id,
+                    locker
+                );
+
+            }
+
+        }
+
+        if (firstLockerLoad) {
+
+            firstLockerLoad = false;
+
+            console.log(
+                "[OWNER] INITIAL LOCKER STATE SAVED"
+            );
+
+        }
+
+        document.getElementById(
+            "syncText"
+        ).innerText =
+            "CONNECTED TO FLASK / SQLITE";
+
+        document.getElementById(
+            "lastSync"
+        ).innerText =
+            "Last sync: " +
+            new Date()
+                .toLocaleTimeString();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "[OWNER] LOCKER SYNC ERROR:",
+            error
+        );
+
+        document.getElementById(
+            "syncText"
+        ).innerText =
+            "CONNECTION ERROR";
+
+        document.getElementById(
+            "lastSync"
+        ).innerText =
+            "Unable to sync";
+
+    }
+
+}
+
+
+/* =========================================================
+   UPDATE LOCKER
+========================================================= */
+
+function updateLocker(
+    id,
+    locker
+) {
+
+    const statusElement =
+        document.getElementById(
+            "status" + id
+        );
+
+    const doorElement =
+        document.getElementById(
+            "door" + id
+        );
+
+    const pinElement =
+        document.getElementById(
+            "pin" + id
+        );
+
+    const deviceElement =
+        document.getElementById(
+            "device" + id
+        );
+
+    const badgeElement =
+        document.getElementById(
+            "statusBadge" + id
+        );
+
+    const card =
+        document.getElementById(
+            "lockerCard" + id
+        );
+
+    const status =
+        String(
+            locker.status ||
+            "AVAILABLE"
+        ).toUpperCase();
+
+    statusElement.innerText =
+        status;
+
+    const door =
+        String(
+            locker.door ||
+            "LOCKED"
+        ).toUpperCase();
+
+    doorElement.innerText =
+        door;
+
+    if (
+        locker.has_pin === true ||
+        locker.has_pin === 1 ||
+        locker.has_pin === "1"
+    ) {
+
+        pinElement.innerText =
+            "SET";
+
+    }
+
+    else {
+
+        pinElement.innerText =
+            "EMPTY";
+
+    }
+
+    const connected =
+        locker.device === true ||
+        locker.device === 1 ||
+        locker.device === "1";
+
+    if (connected) {
+
+        deviceElement.innerText =
+            "CONNECTED";
+
+        deviceElement.className =
+            "info-value device-connected";
+
+    }
+
+    else {
+
+        deviceElement.innerText =
+            "NOT CONNECTED";
+
+        deviceElement.className =
+            "info-value device-disconnected";
+
+    }
+
+    badgeElement.innerText =
+        status;
+
+    badgeElement.className =
+        "status-badge";
+
+    if (
+        status === "AVAILABLE"
+    ) {
+
+        badgeElement.classList.add(
+            "status-available"
+        );
+
+    }
+
+    else if (
+        status === "CHARGING"
+    ) {
+
+        badgeElement.classList.add(
+            "status-charging"
+        );
+
+    }
+
+    else {
+
+        badgeElement.classList.add(
+            "status-unavailable"
+        );
+
+    }
+
+    if (
+        status === "CHARGING"
+    ) {
+
+        card.style.borderColor =
+            "#f0c36a";
+
+    }
+
+    else if (
+        status === "UNAVAILABLE"
+    ) {
+
+        card.style.borderColor =
+            "#ef9b91";
+
+    }
+
+    else {
+
+        card.style.borderColor =
+            "transparent";
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD SYSTEM STATUS
+========================================================= */
+
+async function loadSystemStatus() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/status",
+                {
+
+                    method: "GET",
+
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    },
+
+                    cache: "no-store"
+
+                }
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "HTTP " +
+                response.status
+            );
+
+        }
+
+        const data =
+            await response.json();
+
+        console.log(
+            "[OWNER] SYSTEM STATUS:",
+            data
+        );
+
+        if (
+            data.solar_power !== undefined
+        ) {
+
+            document.getElementById(
+                "solarPower"
+            ).innerText =
+                data.solar_power +
+                " W";
+
+        }
+
+        if (
+            data.battery !== undefined
+        ) {
+
+            document.getElementById(
+                "battery"
+            ).innerText =
+                data.battery +
+                "%";
+
+        }
+
+        if (
+            data.voltage !== undefined
+        ) {
+
+            document.getElementById(
+                "voltage"
+            ).innerText =
+                data.voltage +
+                " V";
+
+        }
+
+        if (
+            data.current !== undefined
+        ) {
+
+            document.getElementById(
+                "current"
+            ).innerText =
+                data.current +
+                " A";
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "[OWNER] STATUS SYNC ERROR:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   EMERGENCY ASSISTANCE
+========================================================= */
+
+function toggleOtherAccident() {
+
+    const selected =
+        document.querySelector(
+            'input[name="accidentType"]:checked'
+        );
+
+    const popup =
+        document.getElementById(
+            "otherEmergencyPopup"
+        );
+
+    const input =
+        document.getElementById(
+            "otherAccident"
+        );
+
+    if (selected && selected.value === "Other") {
+
+        if (popup) {
+            popup.classList.add("show");
+        }
+
+        if (input) {
+            input.focus({ preventScroll: true });
+        }
+
+        return;
+    }
+
+    if (popup) {
+        popup.classList.remove("show");
+    }
+
+}
+
+
+function typeOtherKey(character) {
+
+    const input =
+        document.getElementById(
+            "otherAccident"
+        );
+
+    if (!input) {
+        return;
+    }
+
+    input.value += character;
+    input.scrollTop = input.scrollHeight;
+
+}
+
+
+function backspaceOther() {
+
+    const input =
+        document.getElementById(
+            "otherAccident"
+        );
+
+    if (!input) {
+        return;
+    }
+
+    input.value =
+        input.value.slice(0, -1);
+
+}
+
+
+function clearOther() {
+
+    const input =
+        document.getElementById(
+            "otherAccident"
+        );
+
+    if (!input) {
+        return;
+    }
+
+    input.value = "";
+
+}
+
+
+function cancelOtherEmergency() {
+
+    const popup =
+        document.getElementById(
+            "otherEmergencyPopup"
+        );
+
+    const input =
+        document.getElementById(
+            "otherAccident"
+        );
+
+    const otherRadio =
+        document.querySelector(
+            'input[name="accidentType"][value="Other"]'
+        );
+
+    if (popup) {
+        popup.classList.remove("show");
+    }
+
+    if (input) {
+        input.value = "";
+    }
+
+    if (otherRadio) {
+        otherRadio.checked = false;
+    }
+
+}
+
+
+async function sendEmergency() {
+
+    const selected =
+        document.querySelector(
+            'input[name="accidentType"]:checked'
+        );
+
+    if (!selected) {
+
+        alert(
+            "Please select the type of emergency first."
+        );
+
+        return;
+
+    }
+
+    let accidentType =
+        selected.value;
+
+    let description = "";
+
+    if (accidentType === "Other") {
+
+        const input =
+            document.getElementById(
+                "otherAccident"
+            );
+
+        description =
+            input ? input.value.trim() : "";
+
+        if (!description) {
+
+            alert(
+                "Please describe the emergency."
+            );
+
+            return;
+
+        }
+
+    }
+
+    const displayType =
+        accidentType === "Other"
+            ? accidentType + " - " + description
+            : accidentType;
+
+    const confirmed =
+        confirm(
+            "Emergency Type:\n" +
+            displayType +
+            "\n\nAre you sure you want to request emergency assistance?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/emergency/send",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+                        "Accept":
+                            "application/json"
+                    },
+                    cache: "no-store",
+                    body: JSON.stringify({
+                        type: accidentType,
+                        description: description,
+                        location:
+                            "Mount Balakbak Campsite"
+                    })
+                }
+            );
+
+        const result =
+            await response.json();
+
+        if (!response.ok || !result.success) {
+            throw new Error(
+                result.message ||
+                "Unable to send emergency request."
+            );
+        }
+
+        const requestId =
+            result.emergency &&
+            result.emergency.id !== undefined
+                ? result.emergency.id
+                : "N/A";
+
+        const requestStatus =
+            result.emergency &&
+            result.emergency.status
+                ? result.emergency.status
+                : "SENT";
+
+        alert(
+            "🚨 EMERGENCY REQUEST SENT!\n\n" +
+            "Emergency: " +
+            displayType +
+            "\n\nRequest ID: " +
+            requestId +
+            "\n\nStatus: " +
+            requestStatus
+        );
+
+        document
+            .querySelectorAll(
+                'input[name="accidentType"]'
+            )
+            .forEach(function(radio) {
+                radio.checked = false;
+            });
+
+        clearOther();
+        cancelOtherEmergency();
+
+    }
+    catch (error) {
+
+        console.error(
+            "[OWNER] EMERGENCY SEND ERROR:",
+            error
+        );
+
+        alert(
+            "Unable to send emergency request:\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+/*
+ * Emergency requests are no longer rendered here.
+ * The Owner Emergency screen now uses the same
+ * Emergency Assistance selector as the campsite kiosk.
+ * This function remains because the existing auto-sync
+ * calls it every second.
+ */
+function loadEmergency() {
+    return Promise.resolve();
+}
+
+
+/* =========================================================
+   ACKNOWLEDGE EMERGENCY
+========================================================= */
+
+async function acknowledgeEmergency(
+    emergencyId
+) {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/emergency/" +
+                emergencyId +
+                "/acknowledge",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json"
+
+                    },
+
+                    cache: "no-store",
+
+                    body:
+                        JSON.stringify({})
+
+                }
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "HTTP " +
+                response.status
+            );
+
+        }
+
+        showMessage(
+            "Emergency request acknowledged.",
+            "success"
+        );
+
+        await loadEmergency();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "[OWNER] EMERGENCY ACK ERROR:",
+            error
+        );
+
+        showMessage(
+            "Unable to acknowledge emergency.",
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   RESET LOCKER
+   OWNER ONLY
+========================================================= */
+
+async function resetLocker(
+    lockerId
+) {
+
+    console.log(
+        "========================================"
+    );
+
+    console.log(
+        "[OWNER] RESET BUTTON CLICKED"
+    );
+
+    console.log(
+        "[OWNER] LOCKER:",
+        lockerId
+    );
+
+    /*
+     * IMPORTANT:
+     * No window.confirm().
+     *
+     * This keeps Android WebView
+     * notification/reset working.
+     */
+
+    const button =
+        document.getElementById(
+            "resetLocker" +
+            lockerId
+        );
+
+    if (!button) {
+
+        console.error(
+            "[OWNER] RESET BUTTON NOT FOUND"
+        );
+
+        showMessage(
+            "Reset button not found.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    if (button.disabled) {
+
+        console.log(
+            "[OWNER] RESET ALREADY IN PROGRESS"
+        );
+
+        return;
+
+    }
+
+    button.disabled = true;
+
+    button.innerText =
+        "⏳ RESETTING...";
+
+    const url =
+        "/api/lockers/" +
+        lockerId +
+        "/reset";
+
+    console.log(
+        "[OWNER] SENDING RESET REQUEST:"
+    );
+
+    console.log(
+        "[OWNER] POST",
+        url
+    );
+
+    try {
+
+        const response =
+            await fetch(
+                url,
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Accept":
+                            "application/json"
+
+                    },
+
+                    cache: "no-store",
+
+                    body:
+                        JSON.stringify({})
+
+                }
+            );
+
+        console.log(
+            "[OWNER] RESET HTTP STATUS:",
+            response.status
+        );
+
+        const text =
+            await response.text();
+
+        console.log(
+            "[OWNER] RESET RESPONSE:",
+            text
+        );
+
+        let data;
+
+        try {
+
+            data =
+                JSON.parse(text);
+
+        }
+
+        catch (jsonError) {
+
+            console.error(
+                "[OWNER] JSON ERROR:",
+                jsonError
+            );
+
+            throw new Error(
+                "Flask returned an invalid response."
+            );
+
+        }
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "HTTP Error " +
+                response.status
+            );
+
+        }
+
+        if (!data.success) {
+
+            throw new Error(
+                data.message ||
+                "Unable to reset locker."
+            );
+
+        }
+
+        console.log(
+            "[OWNER] RESET SUCCESS!"
+        );
+
+        /*
+         * Immediately update screen.
+         */
+
+        updateLocker(
+            lockerId,
+            {
+
+                id:
+                    lockerId,
+
+                status:
+                    "AVAILABLE",
+
+                door:
+                    "LOCKED",
+
+                has_pin:
+                    false,
+
+                device:
+                    false
+
+            }
+        );
+
+        /*
+         * Update previous state.
+         */
+
+        previousLockerStates[lockerId] = {
+
+            status:
+                "AVAILABLE",
+
+            door:
+                "LOCKED",
+
+            has_pin:
+                false,
+
+            device:
+                false
+
+        };
+
+        /*
+         * Webpage message.
+         */
+
+        showMessage(
+            "Locker " +
+            lockerId +
+            " reset successfully!",
+            "success"
+        );
+
+        /*
+         * Android system notification.
+         */
+
+        console.log(
+            "[OWNER] CALLING ANDROID NOTIFICATION..."
+        );
+
+        const notificationSent =
+            sendAndroidNotification(
+
+                "🔄 Locker Reset Successful",
+
+                "Locker " +
+                lockerId +
+                " is now AVAILABLE."
+
+            );
+
+        console.log(
+            "[OWNER] NOTIFICATION RESULT:",
+            notificationSent
+        );
+
+        /*
+         * Reload real state
+         * from Flask / SQLite.
+         */
+
+        await loadLockers();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "[OWNER] RESET ERROR:",
+            error
+        );
+
+        showMessage(
+            "Reset failed: " +
+            error.message,
+            "error"
+        );
+
+        await loadLockers();
+
+    }
+
+    finally {
+
+        button.disabled =
+            false;
+
+        button.innerText =
+            "🔄 RESET LOCKER " +
+            lockerId;
+
+    }
+
+    console.log(
+        "========================================"
+    );
+
+}
+
+
+/* =========================================================
+   RESET BUTTON CONNECTION
+========================================================= */
+
+document.getElementById(
+    "resetLocker1"
+).onclick = function() {
+
+    console.log(
+        "[OWNER] Locker 1 reset button detected."
+    );
+
+    resetLocker(1);
+
+};
+
+
+document.getElementById(
+    "resetLocker2"
+).onclick = function() {
+
+    console.log(
+        "[OWNER] Locker 2 reset button detected."
+    );
+
+    resetLocker(2);
+
+};
+
+
+document.getElementById(
+    "resetLocker3"
+).onclick = function() {
+
+    console.log(
+        "[OWNER] Locker 3 reset button detected."
+    );
+
+    resetLocker(3);
+
+};
+
+
+console.log(
+    "[OWNER] RESET BUTTONS READY"
+);
+
+
+/* =========================================================
+   AUTO SYNC
+========================================================= */
+
+setInterval(
+
+    function() {
+
+        if (
+            dashboard.style.display !==
+            "none"
+        ) {
+
+            loadLockers();
+
+            loadSystemStatus();
+
+            /*
+             * Emergency is also synchronized
+             * so new requests can appear.
+             */
+
+            loadEmergency();
+
+        }
+
+    },
+
+    1000
+
+);
+
+
+/* =========================================================
+   STARTUP
+========================================================= */
+
+console.log(
+    "========================================"
+);
+
+console.log(
+    "BALAKBAK OWNER APP"
+);
+
+console.log(
+    "ANDROID NOTIFICATION SUPPORT READY"
+);
+
+console.log(
+    "RESET SYSTEM READY"
+);
+
+console.log(
+    "MENU INTERFACE READY"
+);
+
+console.log(
+    "Waiting for owner login..."
+);
+
+console.log(
+    "========================================"
+);
+
+
+/* LOGIN THEME BUTTON — ADDED ONLY */
+const loginThemeToggle = document.getElementById("loginThemeToggle");
+function updateLoginThemeButton(){ if(!loginThemeToggle)return; const dark=document.body.classList.contains("dark-mode"); loginThemeToggle.textContent=dark?"☀️":"🌙"; loginThemeToggle.title=dark?"Switch to light mode":"Switch to dark mode"; loginThemeToggle.setAttribute("aria-label",loginThemeToggle.title); }
+if(loginThemeToggle){ loginThemeToggle.addEventListener("click",function(){ const dark=!document.body.classList.contains("dark-mode"); document.body.classList.toggle("dark-mode",dark); localStorage.setItem("balakbakOwnerTheme",dark?"dark":"light"); if(typeof applySavedTheme === "function") applySavedTheme(); updateLoginThemeButton(); }); }
+updateLoginThemeButton();
+
+</script>
+
+</body>
+
+</html>

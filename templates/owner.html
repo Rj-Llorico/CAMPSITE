@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Balakbak Campsite Owner</title>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100%;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f2f5f7;
+        color: #222;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+        background: #222;
+        color: white;
+
+        padding: 18px 22px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 20px;
+    }
+
+    .subtitle {
+        font-size: 12px;
+        opacity: 0.75;
+        margin-top: 5px;
+    }
+
+    .logout {
+        background: #c0392b;
+        color: white;
+
+        text-decoration: none;
+
+        padding: 10px 14px;
+
+        border-radius: 8px;
+
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    /* =========================
+       CONTAINER
+    ========================= */
+
+    .container {
+        width: 100%;
+        max-width: 850px;
+
+        margin: auto;
+
+        padding: 22px;
+    }
+
+    /* =========================
+       WELCOME
+    ========================= */
+
+    .welcome h2 {
+        margin: 0 0 7px 0;
+        font-size: 25px;
+    }
+
+    .welcome p {
+        color: #777;
+        margin: 0 0 16px 0;
+        line-height: 1.5;
+    }
+
+    /* =========================
+       REALTIME
+    ========================= */
+
+    .realtime {
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        background: #e8f7ee;
+        color: #168a4a;
+
+        padding: 9px 14px;
+
+        border-radius: 20px;
+
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .dot {
+        width: 10px;
+        height: 10px;
+
+        background: #168a4a;
+
+        border-radius: 50%;
+    }
+
+    .last-update {
+        font-size: 12px;
+        color: #777;
+
+        margin-top: 9px;
+    }
+
+    /* =========================
+       CARD
+    ========================= */
+
+    .card {
+        background: white;
+
+        padding: 20px;
+
+        border-radius: 16px;
+
+        margin-top: 20px;
+
+        box-shadow:
+            0 4px 14px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+        margin-top: 0;
+        margin-bottom: 18px;
+
+        font-size: 21px;
+    }
+
+    /* =========================
+       SYSTEM STATUS
+    ========================= */
+
+    .system-row {
+        display: flex;
+
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 15px;
+
+        padding: 14px 0;
+
+        border-bottom: 1px solid #eee;
+
+        font-size: 16px;
+    }
+
+    .system-row:last-child {
+        border-bottom: none;
+    }
+
+    .online {
+        color: #168a4a;
+        font-weight: bold;
+    }
+
+    .offline {
+        color: #c0392b;
+        font-weight: bold;
+    }
+
+    /* =========================
+       LOCKER
+    ========================= */
+
+    .locker {
+        border: 1px solid #ddd;
+
+        border-radius: 14px;
+
+        padding: 18px;
+
+        margin-bottom: 15px;
+
+        background: #fafafa;
+    }
+
+    .locker:last-child {
+        margin-bottom: 0;
+    }
+
+    .locker-header {
+        display: flex;
+
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 10px;
+    }
+
+    .locker-header h3 {
+        margin: 0;
+        font-size: 19px;
+    }
+
+    .available {
+        color: #168a4a;
+        font-weight: bold;
+    }
+
+    .charging {
+        color: #e67e22;
+        font-weight: bold;
+    }
+
+    .locked {
+        color: #c0392b;
+        font-weight: bold;
+    }
+
+    .unlocked {
+        color: #168a4a;
+        font-weight: bold;
+    }
+
+    .locker p {
+        font-size: 16px;
+        margin: 13px 0;
+    }
+
+    /* =========================
+       BUTTONS
+    ========================= */
+
+    .buttons {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 10px;
+
+        margin-top: 16px;
+    }
+
+    button {
+        border: none;
+
+        min-height: 52px;
+
+        padding: 12px 8px;
+
+        border-radius: 10px;
+
+        color: white;
+
+        cursor: pointer;
+
+        font-size: 14px;
+
+        font-weight: bold;
+    }
+
+    .start {
+        background: #168a4a;
+    }
+
+    .stop {
+        background: #e67e22;
+    }
+
+    .unlock {
+        background: #286090;
+    }
+
+    .lock {
+        background: #c0392b;
+    }
+
+    button:active {
+        transform: scale(0.97);
+    }
+
+    /* =========================
+       EMERGENCY
+    ========================= */
+
+    .emergency-normal {
+        color: #168a4a;
+        font-weight: bold;
+        font-size: 17px;
+    }
+
+    .emergency-active {
+        color: #c0392b;
+        font-weight: bold;
+
+        background: #fff0f0;
+
+        border: 2px solid #e74c3c;
+    }
+
+    #emergencyMessage {
+        line-height: 1.5;
+    }
+
+    /* =========================
+       MESSAGE
+    ========================= */
+
+    #message {
+        position: fixed;
+
+        bottom: 20px;
+
+        left: 20px;
+        right: 20px;
+
+        background: #222;
+
+        color: white;
+
+        padding: 14px;
+
+        border-radius: 10px;
+
+        text-align: center;
+
+        display: none;
+
+        z-index: 999;
+
+        font-size: 15px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 600px) {
+
+        body {
+            font-size: 16px;
+        }
+
+        header {
+            padding: 16px 14px;
+        }
+
+        header h1 {
+            font-size: 18px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+        }
+
+        .logout {
+            padding: 11px 13px;
+            font-size: 13px;
+        }
+
+        .container {
+            width: 100%;
+            padding: 15px;
+        }
+
+        .welcome h2 {
+            font-size: 24px;
+        }
+
+        .welcome p {
+            font-size: 15px;
+        }
+
+        .realtime {
+            font-size: 13px;
+            padding: 10px 13px;
+        }
+
+        .last-update {
+            font-size: 12px;
+        }
+
+        .card {
+            padding: 18px 15px;
+            margin-top: 16px;
+            border-radius: 16px;
+        }
+
+        .card h2 {
+            font-size: 20px;
+        }
+
+        .system-row {
+            padding: 15px 0;
+            font-size: 16px;
+        }
+
+        .locker {
+            padding: 17px 14px;
+        }
+
+        .locker-header h3 {
+            font-size: 19px;
+        }
+
+        .locker p {
+            font-size: 16px;
+        }
+
+        .buttons {
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        button {
+            min-height: 58px;
+            font-size: 14px;
+        }
+
+        #message {
+            left: 12px;
+            right: 12px;
+            bottom: 15px;
+            font-size: 15px;
+        }
+    }
+
+    /* =========================
+       VERY SMALL PHONE
+    ========================= */
+
+    @media (max-width: 380px) {
+
+        header h1 {
+            font-size: 16px;
+        }
+
+        .logout {
+            padding: 10px 11px;
+            font-size: 12px;
+        }
+
+        .container {
+            padding: 12px;
+        }
+
+        .welcome h2 {
+            font-size: 22px;
+        }
+
+        .card {
+            padding: 16px 13px;
+        }
+
+        .card h2 {
+            font-size: 19px;
+        }
+
+        .system-row {
+            font-size: 15px;
+        }
+
+        .locker-header h3 {
+            font-size: 18px;
+        }
+
+        button {
+            min-height: 56px;
+            font-size: 13px;
+        }
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<header>
+
+```
+<div>
+
+    <h1>
+        🏕️ BALAKBAK OWNER
+    </h1>
+
+    <div class="subtitle">
+        Campsite Owner Dashboard
+    </div>
+
+</div>
+
+<a
+    href="/logout"
+    class="logout"
+>
+    Logout
+</a>
+```
+
+</header>
+
+<div class="container">
+
+```
+<!-- WELCOME -->
+
+<div class="welcome">
+
+    <h2>
+        Campsite Monitoring
+    </h2>
+
+    <p>
+        Monitor and manage the Smart Charging Lockers.
+    </p>
+
+    <div class="realtime">
+
+        <span class="dot"></span>
+
+        REAL-TIME SYSTEM
+
+    </div>
+
+    <div class="last-update">
+
+        Last update:
+
+        <span id="lastUpdate">
+            Loading...
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- SYSTEM STATUS -->
+
+<div class="card">
+
+    <h2>
+        📊 System Status
+    </h2>
+
+    <div class="system-row">
+
+        <span>
+            Raspberry Pi
+        </span>
+
+        <span
+            id="raspberryPi"
+            class="online"
+        >
+            LOADING...
+        </span>
+
+    </div>
+
+
+    <div class="system-row">
+
+        <span>
+            📡 LoRa
+        </span>
+
+        <span
+            id="lora"
+            class="online"
+        >
+            LOADING...
+        </span>
+
+    </div>
+
+
+    <div class="system-row">
+
+        <span>
+            ☀️ Solar Power
+        </span>
+
+        <strong>
+
+            <span id="solarPower">
+                0
+            </span>
+
+            W
+
+        </strong>
+
+    </div>
+
+
+    <div class="system-row">
+
+        <span>
+            🔋 Battery
+        </span>
+
+        <strong>
+
+            <span id="battery">
+                0
+            </span>
+
+            %
+
+        </strong>
+
+    </div>
+
+
+    <div class="system-row">
+
+        <span>
+            ⚡ Voltage
+        </span>
+
+        <strong>
+
+            <span id="voltage">
+                0
+            </span>
+
+            V
+
+        </strong>
+
+    </div>
+
+
+    <div class="system-row">
+
+        <span>
+            ⚡ Current
+        </span>
+
+        <strong>
+
+            <span id="current">
+                0
+            </span>
+
+            A
+
+        </strong>
+
+    </div>
+
+</div>
+
+
+<!-- SMART LOCKERS -->
+
+<div class="card">
+
+    <h2>
+        🔐 Smart Lockers
+    </h2>
+
+
+    <!-- LOCKER 1 -->
+
+    <div class="locker">
+
+        <div class="locker-header">
+
+            <h3>
+                Locker 1
+            </h3>
+
+            <span
+                id="status-1"
+                class="available"
+            >
+                LOADING...
+            </span>
+
+        </div>
+
+        <p>
+
+            🔌 Power:
+
+            <strong id="power-1">
+                Loading...
+            </strong>
+
+        </p>
+
+        <p>
+
+            🚪 Door:
+
+            <span id="door-1">
+                Loading...
+            </span>
+
+        </p>
+
+        <div class="buttons">
+
+            <button
+                class="start"
+                onclick="startLocker(1)"
+            >
+                ▶ START
+            </button>
+
+            <button
+                class="stop"
+                onclick="stopLocker(1)"
+            >
+                ■ STOP
+            </button>
+
+            <button
+                class="unlock"
+                onclick="unlockLocker(1)"
+            >
+                🔓 UNLOCK
+            </button>
+
+            <button
+                class="lock"
+                onclick="lockLocker(1)"
+            >
+                🔒 LOCK
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- LOCKER 2 -->
+
+    <div class="locker">
+
+        <div class="locker-header">
+
+            <h3>
+                Locker 2
+            </h3>
+
+            <span
+                id="status-2"
+                class="available"
+            >
+                LOADING...
+            </span>
+
+        </div>
+
+        <p>
+
+            🔌 Power:
+
+            <strong id="power-2">
+                Loading...
+            </strong>
+
+        </p>
+
+        <p>
+
+            🚪 Door:
+
+            <span id="door-2">
+                Loading...
+            </span>
+
+        </p>
+
+        <div class="buttons">
+
+            <button
+                class="start"
+                onclick="startLocker(2)"
+            >
+                ▶ START
+            </button>
+
+            <button
+                class="stop"
+                onclick="stopLocker(2)"
+            >
+                ■ STOP
+            </button>
+
+            <button
+                class="unlock"
+                onclick="unlockLocker(2)"
+            >
+                🔓 UNLOCK
+            </button>
+
+            <button
+                class="lock"
+                onclick="lockLocker(2)"
+            >
+                🔒 LOCK
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- LOCKER 3 -->
+
+    <div class="locker">
+
+        <div class="locker-header">
+
+            <h3>
+                Locker 3
+            </h3>
+
+            <span
+                id="status-3"
+                class="available"
+            >
+                LOADING...
+            </span>
+
+        </div>
+
+        <p>
+
+            🔌 Power:
+
+            <strong id="power-3">
+                Loading...
+            </strong>
+
+        </p>
+
+        <p>
+
+            🚪 Door:
+
+            <span id="door-3">
+                Loading...
+            </span>
+
+        </p>
+
+        <div class="buttons">
+
+            <button
+                class="start"
+                onclick="startLocker(3)"
+            >
+                ▶ START
+            </button>
+
+            <button
+                class="stop"
+                onclick="stopLocker(3)"
+            >
+                ■ STOP
+            </button>
+
+            <button
+                class="unlock"
+                onclick="unlockLocker(3)"
+            >
+                🔓 UNLOCK
+            </button>
+
+            <button
+                class="lock"
+                onclick="lockLocker(3)"
+            >
+                🔒 LOCK
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- EMERGENCY -->
+
+<div
+    id="emergencyCard"
+    class="card"
+>
+
+    <h2>
+        🚨 Emergency Status
+    </h2>
+
+    <p
+        id="emergencyStatus"
+        class="emergency-normal"
+    >
+        Checking...
+    </p>
+
+    <p id="emergencyMessage">
+        Loading...
+    </p>
+
+</div>
+```
+
+</div>
+
+<div id="message"></div>
+
+<script>
+
+    // =========================================================
+    // MESSAGE
+    // =========================================================
+
+    function showMessage(text) {
+
+        const message =
+            document.getElementById("message");
+
+        message.innerText = text;
+
+        message.style.display = "block";
+
+        setTimeout(function() {
+
+            message.style.display = "none";
+
+        }, 2500);
+
+    }
+
+
+    // =========================================================
+    // TIME
+    // =========================================================
+
+    function updateTime() {
+
+        const now = new Date();
+
+        document.getElementById(
+            "lastUpdate"
+        ).innerText =
+            now.toLocaleTimeString();
+
+    }
+
+
+    // =========================================================
+    // LOCKERS
+    // =========================================================
+
+    function updateLockers() {
+
+        fetch("/api/lockers")
+
+            .then(response =>
+                response.json()
+            )
+
+            .then(data => {
+
+                for (
+                    let id = 1;
+                    id <= 3;
+                    id++
+                ) {
+
+                    const locker = data[id];
+
+                    if (!locker) {
+                        continue;
+                    }
+
+
+                    // STATUS
+
+                    const status =
+                        document.getElementById(
+                            `status-${id}`
+                        );
+
+                    if (
+                        locker.status ===
+                        "CHARGING"
+                    ) {
+
+                        status.innerText =
+                            "🟡 CHARGING";
+
+                        status.className =
+                            "charging";
+
+                    } else {
+
+                        status.innerText =
+                            "🟢 AVAILABLE";
+
+                        status.className =
+                            "available";
+
+                    }
+
+
+                    // POWER
+
+                    document.getElementById(
+                        `power-${id}`
+                    ).innerText =
+                        locker.power;
+
+
+                    // DOOR
+
+                    const door =
+                        document.getElementById(
+                            `door-${id}`
+                        );
+
+                    if (
+                        locker.door ===
+                        "Locked"
+                    ) {
+
+                        door.innerText =
+                            "🔒 LOCKED";
+
+                        door.className =
+                            "locked";
+
+                    } else {
+
+                        door.innerText =
+                            "🔓 UNLOCKED";
+
+                        door.className =
+                            "unlocked";
+
+                    }
+
+                }
+
+                updateTime();
+
+            })
+
+            .catch(error => {
+
+                console.log(
+                    "Locker error:",
+                    error
+                );
+
+            });
+
+    }
+
+
+    // =========================================================
+    // START LOCKER
+    // =========================================================
+
+    function startLocker(id) {
+
+        fetch(
+            `/api/lockers/${id}/start`,
+            {
+                method: "POST"
+            }
+        )
+
+        .then(response =>
+            response.json()
+        )
+
+        .then(data => {
+
+            showMessage(
+                data.message
+            );
+
+            updateLockers();
+
+        })
+
+        .catch(error => {
+
+            console.log(
+                "Start locker error:",
+                error
+            );
+
+        });
+
+    }
+
+
+    // =========================================================
+    // STOP LOCKER
+    // =========================================================
+
+    function stopLocker(id) {
+
+        fetch(
+            `/api/lockers/${id}/stop`,
+            {
+                method: "POST"
+            }
+        )
+
+        .then(response =>
+            response.json()
+        )
+
+        .then(data => {
+
+            showMessage(
+                data.message
+            );
+
+            updateLockers();
+
+        })
+
+        .catch(error => {
+
+            console.log(
+                "Stop locker error:",
+                error
+            );
+
+        });
+
+    }
+
+
+    // =========================================================
+    // LOCK
+    // =========================================================
+
+    function lockLocker(id) {
+
+        fetch(
+            `/api/lockers/${id}/lock`,
+            {
+                method: "POST"
+            }
+        )
+
+        .then(response =>
+            response.json()
+        )
+
+        .then(data => {
+
+            showMessage(
+                data.message
+            );
+
+            updateLockers();
+
+        })
+
+        .catch(error => {
+
+            console.log(
+                "Lock error:",
+                error
+            );
+
+        });
+
+    }
+
+
+    // =========================================================
+    // UNLOCK
+    // =========================================================
+
+    function unlockLocker(id) {
+
+        fetch(
+            `/api/lockers/${id}/unlock`,
+            {
+                method: "POST"
+            }
+        )
+
+        .then(response =>
+            response.json()
+        )
+
+        .then(data => {
+
+            showMessage(
+                data.message
+            );
+
+            updateLockers();
+
+        })
+
+        .catch(error => {
+
+            console.log(
+                "Unlock error:",
+                error
+            );
+
+        });
+
+    }
+
+
+    // =========================================================
+    // SYSTEM STATUS
+    // =========================================================
+
+    function updateSystemStatus() {
+
+        fetch("/api/status")
+
+            .then(response =>
+                response.json()
+            )
+
+            .then(data => {
+
+                document.getElementById(
+                    "solarPower"
+                ).innerText =
+                    data.solar_power;
+
+
+                document.getElementById(
+                    "battery"
+                ).innerText =
+                    data.battery;
+
+
+                document.getElementById(
+                    "voltage"
+                ).innerText =
+                    data.voltage;
+
+
+                document.getElementById(
+                    "current"
+                ).innerText =
+                    data.current;
+
+
+                const pi =
+                    document.getElementById(
+                        "raspberryPi"
+                    );
+
+                pi.innerText =
+                    data.raspberry_pi;
+
+                pi.className =
+                    data.raspberry_pi ===
+                    "RUNNING"
+                        ? "online"
+                        : "offline";
+
+
+                const lora =
+                    document.getElementById(
+                        "lora"
+                    );
+
+                lora.innerText =
+                    data.lora;
+
+                lora.className =
+                    data.lora ===
+                    "CONNECTED"
+                        ? "online"
+                        : "offline";
+
+            })
+
+            .catch(error => {
+
+                console.log(
+                    "System status error:",
+                    error
+                );
+
+            });
+
+    }
+
+
+    // =========================================================
+    // EMERGENCY
+    // =========================================================
+
+    function updateEmergency() {
+
+        fetch("/api/emergency")
+
+            .then(response =>
+                response.json()
+            )
+
+            .then(data => {
+
+                const status =
+                    document.getElementById(
+                        "emergencyStatus"
+                    );
+
+                const message =
+                    document.getElementById(
+                        "emergencyMessage"
+                    );
+
+                const card =
+                    document.getElementById(
+                        "emergencyCard"
+                    );
+
+
+                if (data.active) {
+
+                    status.innerText =
+                        "🔴 EMERGENCY ACTIVE";
+
+                    status.className =
+                        "emergency-danger";
+
+                    message.innerText =
+                        data.message;
+
+                    card.className =
+                        "card emergency-active";
+
+                } else {
+
+                    status.innerText =
+                        "🟢 NO EMERGENCY";
+
+                    status.className =
+                        "emergency-normal";
+
+                    message.innerText =
+                        data.message;
+
+                    card.className =
+                        "card";
+
+                }
+
+            })
+
+            .catch(error => {
+
+                console.log(
+                    "Emergency error:",
+                    error
+                );
+
+            });
+
+    }
+
+
+    // =========================================================
+    // UPDATE EVERYTHING
+    // =========================================================
+
+    function updateEverything() {
+
+        updateLockers();
+
+        updateSystemStatus();
+
+        updateEmergency();
+
+    }
+
+
+    // =========================================================
+    // INITIAL
+    // =========================================================
+
+    updateEverything();
+
+
+    // =========================================================
+    // REAL-TIME UPDATE
+    // =========================================================
+
+    setInterval(
+        updateEverything,
+        1000
+    );
+
+</script>
+
+</body>
+
+</html>

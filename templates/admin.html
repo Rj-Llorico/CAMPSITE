@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Balakbak Admin Dashboard</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f5f7;
+            color: #222;
+        }
+
+        header {
+            background: #222;
+            color: white;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .admin-label {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .logout {
+            color: white;
+            text-decoration: none;
+            background: #c0392b;
+            padding: 10px 16px;
+            border-radius: 8px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 30px;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h2 {
+            margin-bottom: 5px;
+        }
+
+        .welcome p {
+            color: #777;
+        }
+
+        .realtime {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            background: #e8f7ee;
+            color: #168a4a;
+
+            padding: 8px 12px;
+            border-radius: 20px;
+
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .realtime-dot {
+            width: 9px;
+            height: 9px;
+            background: #168a4a;
+            border-radius: 50%;
+        }
+
+        .last-update {
+            color: #777;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(280px, 1fr)
+                );
+
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 4px 12px
+                rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        .system-item {
+            display: flex;
+            justify-content: space-between;
+
+            padding: 10px 0;
+
+            border-bottom:
+                1px solid #eee;
+        }
+
+        .system-item:last-child {
+            border-bottom: none;
+        }
+
+        .online {
+            color: #168a4a;
+            font-weight: bold;
+        }
+
+        .offline {
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+        .locker {
+            border: 1px solid #ddd;
+
+            border-radius: 12px;
+
+            padding: 18px;
+
+            margin-bottom: 15px;
+        }
+
+        .locker:last-child {
+            margin-bottom: 0;
+        }
+
+        .locker-title {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+        .locker-title h3 {
+            margin: 0;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .available {
+            color: #168a4a;
+        }
+
+        .charging {
+            color: #e67e22;
+        }
+
+        .locked {
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+        .unlocked {
+            color: #168a4a;
+            font-weight: bold;
+        }
+
+        .emergency-active {
+            border:
+                2px solid #e74c3c;
+
+            background: #fff0f0;
+        }
+
+        .emergency-normal {
+            color: #168a4a;
+            font-weight: bold;
+        }
+
+        .emergency-danger {
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+        button {
+            border: none;
+
+            padding: 10px 14px;
+
+            border-radius: 7px;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 14px;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .clear {
+            background: #286090;
+        }
+
+        .add {
+            background: #168a4a;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .delete {
+            background: #c0392b;
+        }
+
+        .password {
+            background: #e67e22;
+        }
+
+        .kiosk-button {
+            display: inline-block;
+
+            margin-top: 25px;
+
+            padding: 12px 18px;
+
+            background: #286090;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 11px;
+
+            margin-top: 6px;
+            margin-bottom: 12px;
+
+            border:
+                1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+        }
+
+        .owner-account {
+            border:
+                1px solid #ddd;
+
+            border-radius: 10px;
+
+            padding: 15px;
+
+            margin-bottom: 12px;
+        }
+
+        .owner-name {
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .owner-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        #message {
+            position: fixed;
+
+            bottom: 25px;
+            right: 25px;
+
+            background: #222;
+
+            color: white;
+
+            padding: 14px 20px;
+
+            border-radius: 8px;
+
+            display: none;
+
+            z-index: 999;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div>
+
+        <h1>
+            👑 BALAKBAK ADMIN
+        </h1>
+
+        <div class="admin-label">
+            System Administrator
+        </div>
+
+    </div>
+
+    <a
+        href="/logout"
+        class="logout"
+    >
+        Logout
+    </a>
+
+</header>
+
+
+<div class="container">
+
+
+    <div class="welcome">
+
+        <h2>
+            System Administration Dashboard
+        </h2>
+
+        <p>
+            Monitor and manage the complete
+            Balakbak Smart Charging Locker System.
+        </p>
+
+        <div class="realtime">
+
+            <span class="realtime-dot"></span>
+
+            REAL-TIME MONITORING
+
+        </div>
+
+        <div class="last-update">
+
+            Last update:
+            <span id="lastUpdate">
+                Loading...
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="grid">
+
+
+        <!-- SYSTEM STATUS -->
+
+        <div class="card">
+
+            <h2>
+                📊 System Status
+            </h2>
+
+            <div class="system-item">
+
+                <span>
+                    Raspberry Pi
+                </span>
+
+                <span
+                    id="raspberryPi"
+                    class="online"
+                >
+                    LOADING...
+                </span>
+
+            </div>
+
+            <div class="system-item">
+
+                <span>
+                    LoRa
+                </span>
+
+                <span
+                    id="lora"
+                    class="online"
+                >
+                    LOADING...
+                </span>
+
+            </div>
+
+            <div class="system-item">
+
+                <span>
+                    ☀️ Solar Power
+                </span>
+
+                <strong>
+                    <span id="solarPower">0</span> W
+                </strong>
+
+            </div>
+
+            <div class="system-item">
+
+                <span>
+                    🔋 Battery
+                </span>
+
+                <strong>
+                    <span id="battery">0</span> %
+                </strong>
+
+            </div>
+
+            <div class="system-item">
+
+                <span>
+                    ⚡ Voltage
+                </span>
+
+                <strong>
+                    <span id="voltage">0</span> V
+                </strong>
+
+            </div>
+
+            <div class="system-item">
+
+                <span>
+                    ⚡ Current
+                </span>
+
+                <strong>
+                    <span id="current">0</span> A
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- LOCKERS -->
+
+        <div class="card">
+
+            <h2>
+                🔐 Locker Monitoring
+            </h2>
+
+
+            <div class="locker">
+
+                <div class="locker-title">
+
+                    <h3>
+                        Locker 1
+                    </h3>
+
+                    <span
+                        id="status-1"
+                        class="status available"
+                    >
+                        LOADING...
+                    </span>
+
+                </div>
+
+                <p>
+                    Power:
+                    <strong id="power-1">
+                        Loading...
+                    </strong>
+                </p>
+
+                <p>
+                    Door:
+                    <span id="door-1">
+                        Loading...
+                    </span>
+                </p>
+
+            </div>
+
+
+            <div class="locker">
+
+                <div class="locker-title">
+
+                    <h3>
+                        Locker 2
+                    </h3>
+
+                    <span
+                        id="status-2"
+                        class="status available"
+                    >
+                        LOADING...
+                    </span>
+
+                </div>
+
+                <p>
+                    Power:
+                    <strong id="power-2">
+                        Loading...
+                    </strong>
+                </p>
+
+                <p>
+                    Door:
+                    <span id="door-2">
+                        Loading...
+                    </span>
+                </p>
+
+            </div>
+
+
+            <div class="locker">
+
+                <div class="locker-title">
+
+                    <h3>
+                        Locker 3
+                    </h3>
+
+                    <span
+                        id="status-3"
+                        class="status available"
+                    >
+                        LOADING...
+                    </span>
+
+                </div>
+
+                <p>
+                    Power:
+                    <strong id="power-3">
+                        Loading...
+                    </strong>
+                </p>
+
+                <p>
+                    Door:
+                    <span id="door-3">
+                        Loading...
+                    </span>
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- OWNER MANAGEMENT -->
+
+        <div class="card">
+
+            <h2>
+                👥 Campsite Owner Accounts
+            </h2>
+
+            <p>
+                Create and manage accounts
+                for campsite owners.
+            </p>
+
+
+            <h3>
+                ➕ Add Owner
+            </h3>
+
+
+            <label>
+                Username
+            </label>
+
+            <input
+                type="text"
+                id="newUsername"
+                placeholder="Enter username"
+            >
+
+
+            <label>
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="newPassword"
+                placeholder="Enter password"
+            >
+
+
+            <button
+                class="add"
+                onclick="addOwner()"
+            >
+                CREATE OWNER ACCOUNT
+            </button>
+
+
+            <hr style="margin:25px 0;">
+
+
+            <h3>
+                📋 Owner Accounts
+            </h3>
+
+
+            <div id="ownerList">
+
+                Loading owners...
+
+            </div>
+
+        </div>
+
+
+        <!-- EMERGENCY -->
+
+        <div
+            id="emergencyCard"
+            class="card"
+        >
+
+            <h2>
+                🚨 Emergency Monitoring
+            </h2>
+
+            <p
+                id="emergencyStatus"
+                class="emergency-normal"
+            >
+                Checking...
+            </p>
+
+            <p id="emergencyMessage">
+                Loading...
+            </p>
+
+            <button
+                id="clearEmergencyButton"
+                class="clear"
+                onclick="clearEmergency()"
+                style="display:none;"
+            >
+                CLEAR EMERGENCY
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+    <a
+        href="/"
+        class="kiosk-button"
+    >
+        🖥️ OPEN KIOSK
+    </a>
+
+
+</div>
+
+
+<div id="message"></div>
+
+
+<script>
+
+
+// =========================================================
+// MESSAGE
+// =========================================================
+
+function showMessage(text) {
+
+    const message =
+        document.getElementById("message");
+
+    message.innerText = text;
+
+    message.style.display = "block";
+
+
+    setTimeout(function() {
+
+        message.style.display = "none";
+
+    }, 2500);
+
+}
+
+
+// =========================================================
+// TIME
+// =========================================================
+
+function updateTime() {
+
+    const now = new Date();
+
+    document.getElementById(
+        "lastUpdate"
+    ).innerText =
+        now.toLocaleTimeString();
+
+}
+
+
+// =========================================================
+// LOCKERS
+// =========================================================
+
+function updateLockers() {
+
+    fetch("/api/lockers")
+
+        .then(response =>
+            response.json()
+        )
+
+        .then(data => {
+
+
+            for (
+                let id = 1;
+                id <= 3;
+                id++
+            ) {
+
+                const locker = data[id];
+
+                if (!locker) {
+                    continue;
+                }
+
+
+                const status =
+                    document.getElementById(
+                        `status-${id}`
+                    );
+
+
+                if (
+                    locker.status ===
+                    "CHARGING"
+                ) {
+
+                    status.innerText =
+                        "🟡 CHARGING";
+
+                    status.className =
+                        "status charging";
+
+                } else {
+
+                    status.innerText =
+                        "🟢 AVAILABLE";
+
+                    status.className =
+                        "status available";
+
+                }
+
+
+                document.getElementById(
+                    `power-${id}`
+                ).innerText =
+                    locker.power;
+
+
+                const door =
+                    document.getElementById(
+                        `door-${id}`
+                    );
+
+
+                if (
+                    locker.door ===
+                    "Locked"
+                ) {
+
+                    door.innerText =
+                        "🔒 LOCKED";
+
+                    door.className =
+                        "locked";
+
+                } else {
+
+                    door.innerText =
+                        "🔓 UNLOCKED";
+
+                    door.className =
+                        "unlocked";
+
+                }
+
+            }
+
+
+            updateTime();
+
+        })
+
+        .catch(error => {
+
+            console.log(
+                "Locker error:",
+                error
+            );
+
+        });
+
+}
+
+
+// =========================================================
+// SYSTEM STATUS
+// =========================================================
+
+function updateSystemStatus() {
+
+    fetch("/api/status")
+
+        .then(response =>
+            response.json()
+        )
+
+        .then(data => {
+
+
+            document.getElementById(
+                "solarPower"
+            ).innerText =
+                data.solar_power;
+
+
+            document.getElementById(
+                "battery"
+            ).innerText =
+                data.battery;
+
+
+            document.getElementById(
+                "voltage"
+            ).innerText =
+                data.voltage;
+
+
+            document.getElementById(
+                "current"
+            ).innerText =
+                data.current;
+
+
+            const pi =
+                document.getElementById(
+                    "raspberryPi"
+                );
+
+
+            pi.innerText =
+                data.raspberry_pi;
+
+
+            pi.className =
+                data.raspberry_pi ===
+                "RUNNING"
+                    ? "online"
+                    : "offline";
+
+
+            const lora =
+                document.getElementById(
+                    "lora"
+                );
+
+
+            lora.innerText =
+                data.lora;
+
+
+            lora.className =
+                data.lora ===
+                "CONNECTED"
+                    ? "online"
+                    : "offline";
+
+        })
+
+        .catch(error => {
+
+            console.log(
+                "System error:",
+                error
+            );
+
+        });
+
+}
+
+
+// =========================================================
+// EMERGENCY
+// =========================================================
+
+function updateEmergency() {
+
+    fetch("/api/emergency")
+
+        .then(response =>
+            response.json()
+        )
+
+        .then(data => {
+
+
+            const status =
+                document.getElementById(
+                    "emergencyStatus"
+                );
+
+
+            const message =
+                document.getElementById(
+                    "emergencyMessage"
+                );
+
+
+            const card =
+                document.getElementById(
+                    "emergencyCard"
+                );
+
+
+            const clearButton =
+                document.getElementById(
+                    "clearEmergencyButton"
+                );
+
+
+            if (data.active) {
+
+                status.innerText =
+                    "🔴 EMERGENCY ACTIVE";
+
+                status.className =
+                    "emergency-danger";
+
+                message.innerText =
+                    data.message;
+
+                card.className =
+                    "card emergency-active";
+
+                clearButton.style.display =
+                    "block";
+
+            } else {
+
+                status.innerText =
+                    "🟢 NO EMERGENCY";
+
+                status.className =
+                    "emergency-normal";
+
+                message.innerText =
+                    data.message;
+
+                card.className =
+                    "card";
+
+                clearButton.style.display =
+                    "none";
+
+            }
+
+        });
+
+}
+
+
+// =========================================================
+// CLEAR EMERGENCY
+// =========================================================
+
+function clearEmergency() {
+
+    fetch(
+        "/api/emergency/clear",
+        {
+            method: "POST"
+        }
+    )
+
+    .then(response =>
+        response.json()
+    )
+
+    .then(data => {
+
+        showMessage(
+            data.message
+        );
+
+        updateEmergency();
+
+    });
+
+}
+
+
+// =========================================================
+// GET OWNERS
+// =========================================================
+
+function loadOwners() {
+
+    fetch("/api/admin/owners")
+
+        .then(response =>
+            response.json()
+        )
+
+        .then(data => {
+
+            const list =
+                document.getElementById(
+                    "ownerList"
+                );
+
+
+            list.innerHTML = "";
+
+
+            if (
+                data.owners.length === 0
+            ) {
+
+                list.innerHTML =
+                    "<p>No owner accounts.</p>";
+
+                return;
+
+            }
+
+
+            data.owners.forEach(owner => {
+
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                div.className =
+                    "owner-account";
+
+
+                div.innerHTML = `
+
+                    <div class="owner-name">
+
+                        🏕️ ${owner.username}
+
+                    </div>
+
+                    <div class="owner-actions">
+
+                        <button
+                            class="password"
+                            onclick="changePassword('${owner.username}')"
+                        >
+                            🔑 CHANGE PASSWORD
+                        </button>
+
+                        <button
+                            class="delete"
+                            onclick="deleteOwner('${owner.username}')"
+                        >
+                            🗑️ DELETE
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                list.appendChild(div);
+
+            });
+
+        })
+
+        .catch(error => {
+
+            console.log(
+                "Owner error:",
+                error
+            );
+
+        });
+
+}
+
+
+// =========================================================
+// ADD OWNER
+// =========================================================
+
+function addOwner() {
+
+    const username =
+        document.getElementById(
+            "newUsername"
+        ).value.trim();
+
+
+    const password =
+        document.getElementById(
+            "newPassword"
+        ).value.trim();
+
+
+    if (!username || !password) {
+
+        showMessage(
+            "Please enter username and password"
+        );
+
+        return;
+
+    }
+
+
+    fetch(
+        "/api/admin/owners/add",
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type":
+                    "application/json"
+            },
+
+            body: JSON.stringify({
+
+                username: username,
+                password: password
+
+            })
+
+        }
+    )
+
+    .then(response =>
+        response.json()
+    )
+
+    .then(data => {
+
+        showMessage(
+            data.message
+        );
+
+
+        if (data.success) {
+
+            document.getElementById(
+                "newUsername"
+            ).value = "";
+
+
+            document.getElementById(
+                "newPassword"
+            ).value = "";
+
+
+            loadOwners();
+
+        }
+
+    });
+
+}
+
+
+// =========================================================
+// DELETE OWNER
+// =========================================================
+
+function deleteOwner(username) {
+
+    const confirmDelete =
+        confirm(
+            `Delete owner account "${username}"?`
+        );
+
+
+    if (!confirmDelete) {
+        return;
+    }
+
+
+    fetch(
+        "/api/admin/owners/delete",
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type":
+                    "application/json"
+            },
+
+            body: JSON.stringify({
+
+                username: username
+
+            })
+
+        }
+    )
+
+    .then(response =>
+        response.json()
+    )
+
+    .then(data => {
+
+        showMessage(
+            data.message
+        );
+
+
+        if (data.success) {
+
+            loadOwners();
+
+        }
+
+    });
+
+}
+
+
+// =========================================================
+// CHANGE PASSWORD
+// =========================================================
+
+function changePassword(username) {
+
+    const newPassword =
+        prompt(
+            `Enter new password for ${username}:`
+        );
+
+
+    if (!newPassword) {
+        return;
+    }
+
+
+    fetch(
+        "/api/admin/owners/password",
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type":
+                    "application/json"
+            },
+
+            body: JSON.stringify({
+
+                username: username,
+                password: newPassword
+
+            })
+
+        }
+    )
+
+    .then(response =>
+        response.json()
+    )
+
+    .then(data => {
+
+        showMessage(
+            data.message
+        );
+
+    });
+
+}
+
+
+// =========================================================
+// EVERYTHING
+// =========================================================
+
+function updateEverything() {
+
+    updateLockers();
+
+    updateSystemStatus();
+
+    updateEmergency();
+
+}
+
+
+// =========================================================
+// INITIAL LOAD
+// =========================================================
+
+updateEverything();
+
+loadOwners();
+
+
+// =========================================================
+// REAL-TIME
+// =========================================================
+
+setInterval(
+    updateEverything,
+    1000
+);
+
+
+// Refresh owner list every 3 seconds
+
+setInterval(
+    loadOwners,
+    3000
+);
+
+
+</script>
+
+
+</body>
+
+</html>

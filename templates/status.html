@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>System Status - BALAKBAK</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     HEADER
+========================================== -->
+
+<header>
+
+    <div class="logo">
+        ☀️ BALAKBAK
+    </div>
+
+
+    <nav>
+
+        <a href="/">
+            Dashboard
+        </a>
+
+        <a href="/lockers">
+            Lockers
+        </a>
+
+        <a href="/status"
+           class="active">
+
+            System Status
+
+        </a>
+
+        <a href="/emergency"
+           class="emergency-link">
+
+            Emergency
+
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- ==========================================
+     MAIN
+========================================== -->
+
+<main>
+
+
+    <!-- PAGE TITLE -->
+
+    <section class="page-title">
+
+        <p class="subtitle">
+            SYSTEM MONITORING
+        </p>
+
+
+        <h1>
+            System Status
+        </h1>
+
+
+        <p class="description">
+
+            Monitor the solar power system,
+            battery, communication system,
+            and Raspberry Pi controller.
+
+        </p>
+
+
+        <a href="/"
+           class="back-button">
+
+            ← Back to Home
+
+        </a>
+
+    </section>
+
+
+
+    <!-- ======================================
+         SYSTEM GRID
+    ======================================= -->
+
+    <section class="system-grid">
+
+
+        <!-- SOLAR PANEL -->
+
+        <div class="system-card">
+
+            <div class="system-icon">
+                ☀️
+            </div>
+
+
+            <div class="system-title">
+
+                <h2>
+                    Solar Panel
+                </h2>
+
+                <span class="online">
+                    ONLINE
+                </span>
+
+            </div>
+
+
+            <p>
+                Current solar energy production
+            </p>
+
+
+            <div class="value">
+
+                <span id="solar-power">
+                    --
+                </span>
+
+                W
+
+            </div>
+
+        </div>
+
+
+
+        <!-- BATTERY -->
+
+        <div class="system-card">
+
+            <div class="system-icon">
+                🔋
+            </div>
+
+
+            <div class="system-title">
+
+                <h2>
+                    Battery
+                </h2>
+
+                <span class="online">
+                    NORMAL
+                </span>
+
+            </div>
+
+
+            <p>
+                Current battery charge level
+            </p>
+
+
+            <div class="value">
+
+                <span id="battery">
+                    --
+                </span>
+
+                %
+
+            </div>
+
+
+            <div class="progress">
+
+                <div class="progress-fill"
+                     id="battery-bar">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- VOLTAGE -->
+
+        <div class="system-card">
+
+            <div class="system-icon">
+                ⚡
+            </div>
+
+
+            <div class="system-title">
+
+                <h2>
+                    Voltage
+                </h2>
+
+                <span class="online">
+                    NORMAL
+                </span>
+
+            </div>
+
+
+            <p>
+                System battery voltage
+            </p>
+
+
+            <div class="value">
+
+                <span id="voltage">
+                    --
+                </span>
+
+                V
+
+            </div>
+
+        </div>
+
+
+
+        <!-- CURRENT -->
+
+        <div class="system-card">
+
+            <div class="system-icon">
+                🔌
+            </div>
+
+
+            <div class="system-title">
+
+                <h2>
+                    Current
+                </h2>
+
+                <span class="online">
+                    NORMAL
+                </span>
+
+            </div>
+
+
+            <p>
+                Current power consumption
+            </p>
+
+
+            <div class="value">
+
+                <span id="current">
+                    --
+                </span>
+
+                A
+
+            </div>
+
+        </div>
+
+
+
+        <!-- LORA -->
+
+        <div class="system-card">
+
+            <div class="system-icon">
+                📡
+            </div>
+
+
+            <div class="system-title">
+
+                <h2>
+                    LoRa Communication
+                </h2>
+
+                <span class="online"
+                      id="lora-status">
+
+                    READY
+
+                </span>
+
+            </div>
+
+
+            <p>
+                Emergency communication link
+            </p>
+
+
+            <div class="value"
+                 id="lora-value">
+
+                --
+
+            </div>
+
+        </div>
+
+
+
+        <!-- RASPBERRY PI -->
+
+        <div class="system-card">
+
+            <div class="system-icon">
+                🖥️
+            </div>
+
+
+            <div class="system-title">
+
+                <h2>
+                    Raspberry Pi
+                </h2>
+
+                <span class="online">
+
+                    ONLINE
+
+                </span>
+
+            </div>
+
+
+            <p>
+                Main system controller
+            </p>
+
+
+            <div class="value"
+                 id="pi-value">
+
+                --
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- ======================================
+         OVERALL STATUS
+    ======================================= -->
+
+    <section class="overall-status">
+
+        <div>
+
+            <h2>
+                Overall System Status
+            </h2>
+
+
+            <p>
+
+                All major system components are
+                operating normally.
+
+            </p>
+
+        </div>
+
+
+        <div class="overall-badge">
+
+            ● SYSTEM ONLINE
+
+        </div>
+
+    </section>
+
+
+
+    <!-- LAST UPDATE -->
+
+    <section class="last-update">
+
+        <p>
+
+            Last system update:
+
+            <strong id="last-update">
+                Loading...
+            </strong>
+
+        </p>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- ==========================================
+     FOOTER
+========================================== -->
+
+<footer>
+
+    <p>
+        BALAKBAK Smart Charging Locker © 2026
+    </p>
+
+</footer>
+
+
+
+<script>
+
+
+// ==========================================
+// LOAD SYSTEM STATUS
+// ==========================================
+
+async function loadSystemStatus() {
+
+    try {
+
+        const response =
+            await fetch("/api/status");
+
+
+        const data =
+            await response.json();
+
+
+        // SOLAR
+
+        document.getElementById(
+            "solar-power"
+        ).innerText =
+            data.solar_power;
+
+
+
+        // BATTERY
+
+        document.getElementById(
+            "battery"
+        ).innerText =
+            data.battery;
+
+
+        document.getElementById(
+            "battery-bar"
+        ).style.width =
+            data.battery + "%";
+
+
+
+        // VOLTAGE
+
+        document.getElementById(
+            "voltage"
+        ).innerText =
+            data.voltage;
+
+
+
+        // CURRENT
+
+        document.getElementById(
+            "current"
+        ).innerText =
+            data.current;
+
+
+
+        // LORA
+
+        document.getElementById(
+            "lora-value"
+        ).innerText =
+            data.lora;
+
+
+
+        // RASPBERRY PI
+
+        document.getElementById(
+            "pi-value"
+        ).innerText =
+            data.raspberry_pi;
+
+
+
+        // CURRENT TIME
+
+        const now =
+            new Date();
+
+
+        document.getElementById(
+            "last-update"
+        ).innerText =
+            now.toLocaleTimeString();
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "System status error:",
+            error
+        );
+
+    }
+
+}
+
+
+
+// ==========================================
+// INITIAL LOAD
+// ==========================================
+
+loadSystemStatus();
+
+
+
+// ==========================================
+// AUTO UPDATE EVERY 2 SECONDS
+// ==========================================
+
+setInterval(
+    loadSystemStatus,
+    2000
+);
+
+
+</script>
+
+
+</body>
+
+</html>

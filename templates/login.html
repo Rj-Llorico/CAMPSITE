@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <!-- IMPORTANT: MOBILE VIEW -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Balakbak Login</title>
+
+
+    <style>
+
+        /* =========================================
+           GLOBAL
+        ========================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+        }
+
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background: #eef3ef;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 20px;
+
+        }
+
+
+        /* =========================================
+           LOGIN BOX
+        ========================================= */
+
+        .login-box {
+
+            width: 380px;
+
+            max-width: 100%;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,0.15);
+
+            text-align: center;
+
+        }
+
+
+        /* =========================================
+           LOGO
+        ========================================= */
+
+        .logo {
+
+            font-size: 55px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        /* =========================================
+           TITLE
+        ========================================= */
+
+        h1 {
+
+            margin: 0;
+
+            color: #1f7a4d;
+
+            font-size: 30px;
+
+            font-weight: bold;
+
+        }
+
+
+        .subtitle {
+
+            color: #777;
+
+            margin-top: 8px;
+
+            margin-bottom: 30px;
+
+            font-size: 16px;
+
+        }
+
+
+        /* =========================================
+           ERROR
+        ========================================= */
+
+        .error {
+
+            background: #ffe5e5;
+
+            color: #c0392b;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            margin-bottom: 18px;
+
+            font-size: 15px;
+
+        }
+
+
+        /* =========================================
+           INPUT
+        ========================================= */
+
+        input {
+
+            width: 100%;
+
+            height: 52px;
+
+            padding: 12px 15px;
+
+            margin-bottom: 14px;
+
+            border:
+
+                1px solid #ccc;
+
+            border-radius: 9px;
+
+            font-size: 16px;
+
+            outline: none;
+
+        }
+
+
+        input:focus {
+
+            border-color: #1f7a4d;
+
+            box-shadow:
+                0 0 0 2px rgba(31,122,77,0.12);
+
+        }
+
+
+        /* =========================================
+           LOGIN BUTTON
+        ========================================= */
+
+        button {
+
+            width: 100%;
+
+            height: 52px;
+
+            padding: 12px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: #1f7a4d;
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        button:hover {
+
+            background: #17613d;
+
+        }
+
+
+        button:active {
+
+            transform: scale(0.98);
+
+        }
+
+
+        /* =========================================
+           NOTE
+        ========================================= */
+
+        .note {
+
+            margin-top: 22px;
+
+            font-size: 13px;
+
+            color: #888;
+
+        }
+
+
+        /* =========================================
+           MOBILE VERSION
+        ========================================= */
+
+        @media (max-width: 600px) {
+
+            body {
+
+                padding: 18px;
+
+                align-items: center;
+
+            }
+
+
+            .login-box {
+
+                width: 100%;
+
+                max-width: 500px;
+
+                padding:
+
+                    45px 25px;
+
+                border-radius: 22px;
+
+            }
+
+
+            /* BIGGER LOGO */
+
+            .logo {
+
+                font-size: 75px;
+
+                margin-bottom: 12px;
+
+            }
+
+
+            /* BIGGER TITLE */
+
+            h1 {
+
+                font-size: 38px;
+
+            }
+
+
+            .subtitle {
+
+                font-size: 18px;
+
+                margin-top: 10px;
+
+                margin-bottom: 35px;
+
+            }
+
+
+            /* BIGGER INPUT */
+
+            input {
+
+                width: 100%;
+
+                height: 65px;
+
+                padding: 15px 18px;
+
+                font-size: 20px;
+
+                border-radius: 11px;
+
+                margin-bottom: 17px;
+
+            }
+
+
+            /* BIGGER BUTTON */
+
+            button {
+
+                width: 100%;
+
+                height: 65px;
+
+                font-size: 21px;
+
+                border-radius: 11px;
+
+            }
+
+
+            /* ERROR */
+
+            .error {
+
+                font-size: 17px;
+
+                padding: 14px;
+
+            }
+
+
+            /* NOTE */
+
+            .note {
+
+                font-size: 14px;
+
+                margin-top: 25px;
+
+            }
+
+        }
+
+
+        /* =========================================
+           SMALL PHONE
+           Example: 320px - 380px
+        ========================================= */
+
+        @media (max-width: 380px) {
+
+            body {
+
+                padding: 12px;
+
+            }
+
+
+            .login-box {
+
+                padding:
+
+                    35px 18px;
+
+            }
+
+
+            .logo {
+
+                font-size: 62px;
+
+            }
+
+
+            h1 {
+
+                font-size: 32px;
+
+            }
+
+
+            .subtitle {
+
+                font-size: 16px;
+
+                margin-bottom: 28px;
+
+            }
+
+
+            input {
+
+                height: 58px;
+
+                font-size: 18px;
+
+            }
+
+
+            button {
+
+                height: 58px;
+
+                font-size: 19px;
+
+            }
+
+
+            .note {
+
+                font-size: 13px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         LOGIN BOX
+    ========================================= -->
+
+    <div class="login-box">
+
+
+        <!-- LOGO -->
+
+        <div class="logo">
+
+            🏕️
+
+        </div>
+
+
+        <!-- TITLE -->
+
+        <h1>
+
+            BALAKBAK
+
+        </h1>
+
+
+        <!-- SUBTITLE -->
+
+        <div class="subtitle">
+
+            System Login
+
+        </div>
+
+
+        <!-- ERROR MESSAGE -->
+
+        {% if error %}
+
+            <div class="error">
+
+                {{ error }}
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- LOGIN FORM -->
+
+        <form method="POST">
+
+
+            <!-- USERNAME -->
+
+            <input
+
+                type="text"
+
+                name="username"
+
+                placeholder="Username"
+
+                autocomplete="username"
+
+                required
+
+            >
+
+
+            <!-- PASSWORD -->
+
+            <input
+
+                type="password"
+
+                name="password"
+
+                placeholder="Password"
+
+                autocomplete="current-password"
+
+                required
+
+            >
+
+
+            <!-- LOGIN -->
+
+            <button type="submit">
+
+                LOGIN
+
+            </button>
+
+
+        </form>
+
+
+        <!-- SECURITY NOTE -->
+
+        <div class="note">
+
+            🔒 Authorized users only
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>
+
